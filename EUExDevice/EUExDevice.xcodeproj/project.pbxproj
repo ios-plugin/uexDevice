@@ -1,0 +1,323 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5A500F19188FB1C20022E07C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A500F18188FB1C20022E07C /* Foundation.framework */; };
+		5A500F20188FB1C20022E07C /* EUExDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A500F1F188FB1C20022E07C /* EUExDevice.m */; };
+		A036158418E2BA2200800C19 /* Reachability_Device.m in Sources */ = {isa = PBXBuildFile; fileRef = A036158318E2BA2200800C19 /* Reachability_Device.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5A500F13188FB1C20022E07C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		5A500F15188FB1C20022E07C /* libuexDevice.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libuexDevice.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		5A500F18188FB1C20022E07C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		5A500F1C188FB1C20022E07C /* EUExDevice-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EUExDevice-Prefix.pch"; sourceTree = "<group>"; };
+		5A500F1F188FB1C20022E07C /* EUExDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EUExDevice.m; sourceTree = "<group>"; };
+		5A500F26188FB1C20022E07C /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		5A500F29188FB1C20022E07C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		5A500F3F188FB1F90022E07C /* EUExBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EUExBase.h; sourceTree = "<group>"; };
+		5A500F40188FB1F90022E07C /* EUExBaseDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EUExBaseDefine.h; sourceTree = "<group>"; };
+		5A500F41188FB1F90022E07C /* EUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EUtility.h; sourceTree = "<group>"; };
+		5A500F43188FB1F90022E07C /* AppCanAnalysis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppCanAnalysis.h; sourceTree = "<group>"; };
+		5A500F45188FB1F90022E07C /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
+		5A500F46188FB1F90022E07C /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
+		5A500F47188FB1F90022E07C /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SBJSON.h"; sourceTree = "<group>"; };
+		5A500F48188FB1F90022E07C /* SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJSON.h; sourceTree = "<group>"; };
+		5A500F49188FB1F90022E07C /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
+		5A500F4A188FB1F90022E07C /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
+		5A500F4B188FB1F90022E07C /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		5A60A96D18AB676100C727A6 /* EUExDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EUExDevice.h; sourceTree = "<group>"; };
+		A036158218E2BA2200800C19 /* Reachability_Device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability_Device.h; sourceTree = "<group>"; };
+		A036158318E2BA2200800C19 /* Reachability_Device.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability_Device.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5A500F12188FB1C20022E07C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5A500F19188FB1C20022E07C /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5A500F0C188FB1C20022E07C = {
+			isa = PBXGroup;
+			children = (
+				5A500F1A188FB1C20022E07C /* EUExDevice */,
+				5A500F17188FB1C20022E07C /* Frameworks */,
+				5A500F16188FB1C20022E07C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		5A500F16188FB1C20022E07C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5A500F15188FB1C20022E07C /* libuexDevice.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5A500F17188FB1C20022E07C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5A500F18188FB1C20022E07C /* Foundation.framework */,
+				5A500F26188FB1C20022E07C /* XCTest.framework */,
+				5A500F29188FB1C20022E07C /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5A500F1A188FB1C20022E07C /* EUExDevice */ = {
+			isa = PBXGroup;
+			children = (
+				5A60A96D18AB676100C727A6 /* EUExDevice.h */,
+				5A500F1F188FB1C20022E07C /* EUExDevice.m */,
+				5A500F3E188FB1F90022E07C /* engineHeader */,
+				5A500F42188FB1F90022E07C /* sourceCode */,
+				5A500F1B188FB1C20022E07C /* Supporting Files */,
+			);
+			path = EUExDevice;
+			sourceTree = "<group>";
+		};
+		5A500F1B188FB1C20022E07C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				5A500F1C188FB1C20022E07C /* EUExDevice-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5A500F3E188FB1F90022E07C /* engineHeader */ = {
+			isa = PBXGroup;
+			children = (
+				5A500F3F188FB1F90022E07C /* EUExBase.h */,
+				5A500F40188FB1F90022E07C /* EUExBaseDefine.h */,
+				5A500F41188FB1F90022E07C /* EUtility.h */,
+			);
+			path = engineHeader;
+			sourceTree = "<group>";
+		};
+		5A500F42188FB1F90022E07C /* sourceCode */ = {
+			isa = PBXGroup;
+			children = (
+				A036158218E2BA2200800C19 /* Reachability_Device.h */,
+				A036158318E2BA2200800C19 /* Reachability_Device.m */,
+				5A500F43188FB1F90022E07C /* AppCanAnalysis.h */,
+				5A500F44188FB1F90022E07C /* JSON */,
+			);
+			path = sourceCode;
+			sourceTree = "<group>";
+		};
+		5A500F44188FB1F90022E07C /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				5A500F45188FB1F90022E07C /* JSON.h */,
+				5A500F46188FB1F90022E07C /* NSObject+SBJSON.h */,
+				5A500F47188FB1F90022E07C /* NSString+SBJSON.h */,
+				5A500F48188FB1F90022E07C /* SBJSON.h */,
+				5A500F49188FB1F90022E07C /* SBJsonBase.h */,
+				5A500F4A188FB1F90022E07C /* SBJsonParser.h */,
+				5A500F4B188FB1F90022E07C /* SBJsonWriter.h */,
+			);
+			path = JSON;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		5A500F14188FB1C20022E07C /* EUExDevice */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5A500F38188FB1C20022E07C /* Build configuration list for PBXNativeTarget "EUExDevice" */;
+			buildPhases = (
+				5A500F11188FB1C20022E07C /* Sources */,
+				5A500F12188FB1C20022E07C /* Frameworks */,
+				5A500F13188FB1C20022E07C /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EUExDevice;
+			productName = EUExDevice;
+			productReference = 5A500F15188FB1C20022E07C /* libuexDevice.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5A500F0D188FB1C20022E07C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = xll;
+			};
+			buildConfigurationList = 5A500F10188FB1C20022E07C /* Build configuration list for PBXProject "EUExDevice" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 5A500F0C188FB1C20022E07C;
+			productRefGroup = 5A500F16188FB1C20022E07C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5A500F14188FB1C20022E07C /* EUExDevice */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5A500F11188FB1C20022E07C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A036158418E2BA2200800C19 /* Reachability_Device.m in Sources */,
+				5A500F20188FB1C20022E07C /* EUExDevice.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		5A500F36188FB1C20022E07C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		5A500F37188FB1C20022E07C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		5A500F39188FB1C20022E07C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/uexDevice/";
+				DSTROOT = /tmp/EUExDevice.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "EUExDevice/EUExDevice-Prefix.pch";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = uexDevice;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		5A500F3A188FB1C20022E07C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/uexDevice/";
+				DSTROOT = /tmp/EUExDevice.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "EUExDevice/EUExDevice-Prefix.pch";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = uexDevice;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5A500F10188FB1C20022E07C /* Build configuration list for PBXProject "EUExDevice" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5A500F36188FB1C20022E07C /* Debug */,
+				5A500F37188FB1C20022E07C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5A500F38188FB1C20022E07C /* Build configuration list for PBXNativeTarget "EUExDevice" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5A500F39188FB1C20022E07C /* Debug */,
+				5A500F3A188FB1C20022E07C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5A500F0D188FB1C20022E07C /* Project object */;
+}

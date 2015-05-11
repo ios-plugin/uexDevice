@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<uexplugins>
+    <plugin name="uexDevice">
+        <method name="getInfo"></method>
+		<method name="vibrate"></method>
+        <method name="cancelVibrate"></method>
+	</plugin>
+</uexplugins>
