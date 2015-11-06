@@ -4,5 +4,13 @@
         <method name="getInfo"></method>
 		<method name="vibrate"></method>
         <method name="cancelVibrate"></method>
+        <method name="screenCapture"></method>
+        <method name="setAudioCategory"></method>
+        <method name="setVolume"></method>
+        <method name="getVolume"></method>
+        <method name="setScreenAlwaysBright"></method>
+        <method name="setScreenBrightness"></method>
+        <method name="openWiFiInterface"></method>
+        <method name="getScreenBrightness"></method>
 	</plugin>
 </uexplugins>
