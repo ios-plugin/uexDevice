@@ -5,7 +5,6 @@
 		<method name="vibrate"></method>
         <method name="cancelVibrate"></method>
         <method name="screenCapture"></method>
-        <method name="setAudioCategory"></method>
         <method name="setVolume"></method>
         <method name="getVolume"></method>
         <method name="setScreenAlwaysBright"></method>
