@@ -16,6 +16,8 @@
 #import <sys/mount.h>
 #import <sys/param.h>
 #import "EUExBaseDefine.h"
+#import <AVFoundation/AVFoundation.h>
+#import <MediaPlayer/MediaPlayer.h>
 #include <sys/sysctl.h>
 
 @implementation EUExDevice
@@ -649,5 +651,184 @@ typedef enum {
     }
 }
 
+#pragma mark -
+#pragma mark - Screen Capture
+
+-(void)screenCapture:(NSMutableArray *)inArguments{
+    if(inArguments.count < 1){
+        return;
+    }
+    CGFloat quality=[inArguments[0] floatValue];
+    if(quality <=1&& quality>=0){
+        UIWindow *screenWindow = [[UIApplication sharedApplication] keyWindow];
+        UIGraphicsBeginImageContext(screenWindow.frame.size);//全屏截图，包括window
+        [screenWindow.layer renderInContext:UIGraphicsGetCurrentContext()];
+        UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        NSString *savePath=[self saveImage:viewImage quality:quality];
+        [self cbSavePath:savePath];
+        //保存到系统相册
+        //UIImageWriteToSavedPhotosAlbum(viewImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+    }
+    else{
+        return;
+    }
+}
+//callback
+-(void) cbSavePath:(NSString*)savePath{
+    NSMutableDictionary *path=[NSMutableDictionary dictionary];
+    [path setValue:savePath forKey:@"savePath"];
+    NSString *result=[path JSONFragment];
+    NSString *cbStr=[NSString stringWithFormat:@"if(uexDevice.cbScreenCapture != null){uexDevice.cbScreenCapture('%@');}",result];
+    [EUtility brwView:meBrwView evaluateScript:cbStr];
+}
+
+-(NSString *)getSaveDirPath{
+    NSString *tempPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/apps"];
+    NSString *wgtTempPath=[tempPath stringByAppendingPathComponent:[EUtility brwViewWidgetId:meBrwView]];
+    
+    return [wgtTempPath stringByAppendingPathComponent:@"uexDevice"];
+}
+// save to Disk
+-(NSString *)saveImage:(UIImage *)image quality:(CGFloat)quality{
+    NSData *imageData=UIImageJPEGRepresentation(image, quality);
+    NSString *imageSuffix= @"jpg";
+    
+    if(!imageData) return nil;
+    
+    NSFileManager *fmanager = [NSFileManager defaultManager];
+    
+    NSString *uexImageSaveDir=[self getSaveDirPath];
+    if (![fmanager fileExistsAtPath:uexImageSaveDir]) {
+        [fmanager createDirectoryAtPath:uexImageSaveDir withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    NSString *timeStr = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSinceReferenceDate]];
+    
+    NSString *imgName = [NSString stringWithFormat:@"%@.%@",[timeStr substringFromIndex:([timeStr length]-6)],imageSuffix];
+    NSString *imgTmpPath = [uexImageSaveDir stringByAppendingPathComponent:imgName];
+    if ([fmanager fileExistsAtPath:imgTmpPath]) {
+        [fmanager removeItemAtPath:imgTmpPath error:nil];
+    }
+    if([imageData writeToFile:imgTmpPath atomically:YES]){
+        return imgTmpPath;
+    }else{
+        return nil;
+    }
+    
+}
+
+#pragma mark -
+#pragma mark - Volume
+
+-(void)setVolume:(NSMutableArray *)inArguments{
+    if(inArguments.count<1){
+        return;
+    }
+    CGFloat volumeValue=[inArguments[0] floatValue];
+    if(volumeValue <=1&& volumeValue>=0){
+        MPVolumeView *volumeView = [[MPVolumeView alloc] init];
+        UISlider* volumeViewSlider = nil;
+        for (UIView *view in [volumeView subviews]){
+            if ([view.class.description isEqualToString:@"MPVolumeSlider"]){
+                volumeViewSlider = (UISlider*)view;
+                break;
+            }
+        }
+        //不显示滑动条和音量界面
+        volumeView.showsVolumeSlider = NO;
+        volumeView.hidden=NO;
+        
+        [volumeViewSlider setValue:volumeValue animated:NO];
+        [volumeViewSlider sendActionsForControlEvents:UIControlEventTouchUpInside];
+        
+        //[[MPMusicPlayerController applicationMusicPlayer] setVolume:volumeValue];
+    }
+    else{
+        return;
+    }
+}
+- (void)getVolume:(NSMutableArray *)inArguments{
+    CGFloat volumeValue=[[MPMusicPlayerController applicationMusicPlayer] volume];
+    NSMutableDictionary *volumeVal=[NSMutableDictionary dictionary];
+    [volumeVal setValue:[NSString stringWithFormat:@"%f",volumeValue] forKey:@"volume"];
+    NSString *result=[volumeVal JSONFragment];
+    NSString *cbStr=[NSString stringWithFormat:@"if(uexDevice.cbGetVolume != null){uexDevice.cbGetVolume('%@');}",result];
+    [EUtility brwView:meBrwView evaluateScript:cbStr];
+}
+
+#pragma mark -
+#pragma mark - Audio Category
+
+-(void)setAudioCategory:(NSMutableArray *)inArguments{
+    if(inArguments.count<1){
+        return;
+    }
+    int audioType=[inArguments[0] intValue];
+//    UInt32 doChangeDefaultRoute = kAudioSessionOverrideAudioRoute_None;
+//    AudioSessionSetProperty (
+//                             kAudioSessionProperty_OverrideCategoryDefaultToSpeaker,
+//                             sizeof (doChangeDefaultRoute),
+//                             &doChangeDefaultRoute
+//                             );
+    
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    //NSLog(@"category---->%@",[audioSession category]);
+    if(audioType==0){
+        //扬声器模式
+        [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
+    }
+    if(audioType==1){
+        //听筒模式
+        [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+    }
+}
+
+#pragma mark -
+#pragma mark - set Screen Always Bright
+
+-(void)setScreenAlwaysBright:(NSMutableArray *)inArguments{
+    if(inArguments.count<1){
+        return;
+    }
+    int brightValue=[inArguments[0] intValue];
+    if(brightValue==0){
+        [UIApplication sharedApplication].idleTimerDisabled = NO;
+    }
+    if(brightValue==1){
+        [UIApplication sharedApplication].idleTimerDisabled = YES;
+    }
+}
+
+#pragma mark -
+#pragma mark - Screen Brightness
+
+-(void)setScreenBrightness:(NSMutableArray *)inArguments{
+    if(inArguments.count<1){
+        return;
+    }
+    CGFloat brightnessValue=[inArguments[0] floatValue];
+    if(brightnessValue <=1&& brightnessValue>=0){
+        [[UIScreen mainScreen]setBrightness:brightnessValue];
+    }
+    else{
+        return;
+    }
+    
+}
+-(void)getScreenBrightness:(NSMutableArray *)inArguments{
+    CGFloat brightness=[[UIScreen mainScreen] brightness];
+    NSMutableDictionary *brightnessVal=[NSMutableDictionary dictionary];
+    [brightnessVal setValue:[NSString stringWithFormat:@"%f",brightness] forKey:@"brightness"];
+    NSString *result=[brightnessVal JSONFragment];
+    NSString *cbStr=[NSString stringWithFormat:@"if(uexDevice.cbGetScreenBrightness != null){uexDevice.cbGetScreenBrightness('%@');}",result];
+    [EUtility brwView:meBrwView evaluateScript:cbStr];
+}
+
+#pragma mark -
+#pragma mark - WIFI
+
+-(void)openWiFiInterface:(NSMutableArray *)inArguments{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=WIFI"]];
+}
 @end
 

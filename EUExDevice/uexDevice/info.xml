@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
     <plugin
-        uexName="uexDevice" version="3.0.4" build="4">
-        <info>4:添加IDE支持</info>
+        uexName="uexDevice" version="3.0.5" build="5">
+        <info>5:添加IDE支持</info>
+        <build>4:新增屏幕截图、调节屏幕亮度、调节系统音量、屏幕常亮控制、跳转WIFI界面相关接口</build>
         <build>3:设备列表更新</build>
         <build>2:支持获取4G网络状态</build>
         <build>1:修复在不显示状态栏时无法获取当前网络状态的bug</build>
