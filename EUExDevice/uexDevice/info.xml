@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
     <plugin
-        uexName="uexDevice" version="3.0.3" build="3">
-        <info>3:设备列表更新</info>
+        uexName="uexDevice" version="3.0.4" build="4">
+        <info>4:添加IDE支持</info>
+        <build>3:设备列表更新</build>
         <build>2:支持获取4G网络状态</build>
         <build>1:修复在不显示状态栏时无法获取当前网络状态的bug</build>
         <build>0:设备能力功能插件</build>

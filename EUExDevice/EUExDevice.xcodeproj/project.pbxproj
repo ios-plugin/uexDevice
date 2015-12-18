@@ -29,8 +29,6 @@
 		5A500F18188FB1C20022E07C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5A500F1C188FB1C20022E07C /* EUExDevice-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EUExDevice-Prefix.pch"; sourceTree = "<group>"; };
 		5A500F1F188FB1C20022E07C /* EUExDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EUExDevice.m; sourceTree = "<group>"; };
-		5A500F26188FB1C20022E07C /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		5A500F29188FB1C20022E07C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		5A500F3F188FB1F90022E07C /* EUExBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EUExBase.h; sourceTree = "<group>"; };
 		5A500F40188FB1F90022E07C /* EUExBaseDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EUExBaseDefine.h; sourceTree = "<group>"; };
 		5A500F41188FB1F90022E07C /* EUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EUtility.h; sourceTree = "<group>"; };
@@ -80,8 +78,6 @@
 			isa = PBXGroup;
 			children = (
 				5A500F18188FB1C20022E07C /* Foundation.framework */,
-				5A500F26188FB1C20022E07C /* XCTest.framework */,
-				5A500F29188FB1C20022E07C /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
