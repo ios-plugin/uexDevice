@@ -2,7 +2,7 @@
 <uexplugins>
     <plugin name="uexDevice">
         <method name="getInfo"></method>
-		<method name="vibrate"></method>
+        <method name="vibrate"></method>
         <method name="cancelVibrate"></method>
         <method name="screenCapture"></method>
         <method name="setVolume"></method>
@@ -11,5 +11,7 @@
         <method name="setScreenBrightness"></method>
         <method name="openWiFiInterface"></method>
         <method name="getScreenBrightness"></method>
-	</plugin>
+        <method name="isFunctionEnable"></method>
+        <method name="openSetting"></method>
+    </plugin>
 </uexplugins>

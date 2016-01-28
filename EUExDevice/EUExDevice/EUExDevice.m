@@ -18,7 +18,16 @@
 #import "EUExBaseDefine.h"
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
+#import <CoreLocation/CoreLocation.h>
+#import <CoreBluetooth/CoreBluetooth.h>
+#import <CFNetwork/CFNetwork.h>
+#import "Reachability_Device.h"
+#import <SystemConfiguration/SystemConfiguration.h>
+
 #include <sys/sysctl.h>
+@interface EUExDevice()<CBCentralManagerDelegate>
+
+@end
 
 @implementation EUExDevice
 
@@ -829,6 +838,76 @@ typedef enum {
 
 -(void)openWiFiInterface:(NSMutableArray *)inArguments{
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=WIFI"]];
+}
+#pragma mark - setting
+-(void)isFunctionEnable:(NSMutableArray *)inArguments{
+    if(inArguments.count<1){
+        return;
+    }
+    id info=[inArguments[0] JSONValue];
+    NSString *setting=[info objectForKey:@"setting"];
+    NSMutableDictionary *result=[NSMutableDictionary dictionary];
+    [result setValue:setting forKey:@"setting"];
+    if([setting isEqualToString:@"GPS"]){
+        if ([CLLocationManager locationServicesEnabled]){
+            [result setValue:@(YES) forKey:@"isEnable"];
+        }
+        else{
+            [result setValue:@(NO) forKey:@"isEnable"];
+        }
+    }
+    else if([setting isEqualToString:@"BLUETOOTH"]){
+        CBCentralManager *manager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+        return;
+    }
+//    else if([setting isEqualToString:@"NETWORK"]){
+//        NSString *net=[self getConnectStatus];
+//        BOOL status=[Reachability_Device isNetWorkReachable];
+//        NSLog(@"-----------%@",net);
+//    }
+    else{
+        [result setValue:@(NO) forKey:@"isEnable"];
+    }
+    NSString *cbStr=[NSString stringWithFormat:@"if(uexDevice.cbIsFunctionEnable != null){uexDevice.cbIsFunctionEnable('%@');}",[result JSONFragment]];
+    [EUtility brwView:meBrwView evaluateScript:cbStr];
+}
+- (void)centralManagerDidUpdateState:(CBCentralManager *)central{
+    NSMutableDictionary *result=[NSMutableDictionary dictionary];
+    [result setValue:@"BLUETOOTH" forKey:@"setting"];
+    if(central.state==5){
+        [result setValue:@(YES) forKey:@"isEnable"];
+    }
+    else{
+        [result setValue:@(NO) forKey:@"isEnable"];
+    }
+    NSString *cbStr=[NSString stringWithFormat:@"if(uexDevice.cbIsFunctionEnable != null){uexDevice.cbIsFunctionEnable('%@');}",[result JSONFragment]];
+    [EUtility brwView:meBrwView evaluateScript:cbStr];
+}
+-(void)openSetting:(NSMutableArray *)inArguments{
+    if(inArguments.count<1){
+        return;
+    }
+    id info=[inArguments[0] JSONValue];
+    NSString *setting=[info objectForKey:@"setting"];
+    NSMutableDictionary *result=[NSMutableDictionary dictionary];
+    [result setValue:setting forKey:@"setting"];
+    if([setting isEqualToString:@"GPS"]){
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=LOCATION_SERVICES"]];
+        [result setValue:@(0) forKey:@"errorCode"];
+    }
+    else if ([setting isEqualToString:@"BLUETOOTH"]){
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=Bluetooth"]];
+        [result setValue:@(0) forKey:@"errorCode"];
+    }
+//    else if([setting isEqualToString:@"NETWORK"]){
+//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=Network"]];
+//        [result setValue:@(0) forKey:@"errorCode"];
+//    }
+    else{
+        [result setValue:@(1) forKey:@"errorCode"];
+    }
+    NSString *cbStr=[NSString stringWithFormat:@"if(uexDevice.cbOpenSetting != null){uexDevice.cbOpenSetting('%@');}",[result JSONFragment]];
+    [EUtility brwView:meBrwView evaluateScript:cbStr];
 }
 @end
 
