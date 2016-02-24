@@ -884,28 +884,39 @@ typedef enum {
     [EUtility brwView:meBrwView evaluateScript:cbStr];
 }
 -(void)openSetting:(NSMutableArray *)inArguments{
-    if(inArguments.count<1){
-        return;
-    }
+    NSString *setting = @"";
     id info=[inArguments[0] JSONValue];
-    NSString *setting=[info objectForKey:@"setting"];
+    if (info && [info isKindOfClass:[NSDictionary class]] && [info[@"setting"] isKindOfClass:[NSString class]]) {
+        setting = info[@"setting"];
+    }
     NSMutableDictionary *result=[NSMutableDictionary dictionary];
     [result setValue:setting forKey:@"setting"];
-    if([setting isEqualToString:@"GPS"]){
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=LOCATION_SERVICES"]];
-        [result setValue:@(0) forKey:@"errorCode"];
+    BOOL isSuccess = NO;
+    
+    //定位设置
+    if([setting isEqual:@"GPS"]){
+        isSuccess = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=LOCATION_SERVICES"]];
+
     }
-    else if ([setting isEqualToString:@"BLUETOOTH"]){
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=Bluetooth"]];
-        [result setValue:@(0) forKey:@"errorCode"];
+    //蓝牙设置
+    if ([setting isEqual:@"BLUETOOTH"]){
+        isSuccess = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=Bluetooth"]];
+
     }
+    //推送设置
+    if ([setting isEqual:@"NOTIFICATION"]){
+        isSuccess = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=NOTIFICATIONS_ID"]];
+    }
+    if(!setting || setting.length == 0){
+        isSuccess = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+    }
+    //网络设置
 //    else if([setting isEqualToString:@"NETWORK"]){
 //        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=Network"]];
 //        [result setValue:@(0) forKey:@"errorCode"];
 //    }
-    else{
-        [result setValue:@(1) forKey:@"errorCode"];
-    }
+    
+    [result setValue:isSuccess?@0:@1 forKey:@"errorCode"];
     NSString *cbStr=[NSString stringWithFormat:@"if(uexDevice.cbOpenSetting != null){uexDevice.cbOpenSetting('%@');}",[result JSONFragment]];
     [EUtility brwView:meBrwView evaluateScript:cbStr];
 }

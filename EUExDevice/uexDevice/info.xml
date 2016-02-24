@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
     <plugin
-        uexName="uexDevice" version="3.0.6" build="6">
-        <info>6:添加判断功能是否开启,以及打开设置界面接口</info>
+        uexName="uexDevice" version="3.0.7" build="7">
+        <info>7:openSetting接口支持打开推送通知设置</info>
+        <build>6:添加判断功能是否开启,以及打开设置界面接口</build>
         <build>5:添加IDE支持</build>
         <build>4:新增屏幕截图、调节屏幕亮度、调节系统音量、屏幕常亮控制、跳转WIFI界面相关接口</build>
         <build>3:设备列表更新</build>
