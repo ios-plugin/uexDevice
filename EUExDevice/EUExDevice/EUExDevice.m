@@ -26,7 +26,7 @@
 
 #include <sys/sysctl.h>
 @interface EUExDevice()<CBCentralManagerDelegate>
-
+@property (nonatomic,strong)CBCentralManager *CBManager;
 @end
 
 @implementation EUExDevice
@@ -857,7 +857,7 @@ typedef enum {
         }
     }
     else if([setting isEqualToString:@"BLUETOOTH"]){
-        CBCentralManager *manager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+        self.CBManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
         return;
     }
 //    else if([setting isEqualToString:@"NETWORK"]){
@@ -882,6 +882,7 @@ typedef enum {
     }
     NSString *cbStr=[NSString stringWithFormat:@"if(uexDevice.cbIsFunctionEnable != null){uexDevice.cbIsFunctionEnable('%@');}",[result JSONFragment]];
     [EUtility brwView:meBrwView evaluateScript:cbStr];
+    self.CBManager = nil;
 }
 -(void)openSetting:(NSMutableArray *)inArguments{
     NSString *setting = @"";
