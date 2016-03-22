@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		5A500F19188FB1C20022E07C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A500F18188FB1C20022E07C /* Foundation.framework */; };
 		5A500F20188FB1C20022E07C /* EUExDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A500F1F188FB1C20022E07C /* EUExDevice.m */; };
-		A036158418E2BA2200800C19 /* Reachability_Device.m in Sources */ = {isa = PBXBuildFile; fileRef = A036158318E2BA2200800C19 /* Reachability_Device.m */; };
+		A036158418E2BA2200800C19 /* Reachability_Device.m in Sources */ = {isa = PBXBuildFile; fileRef = A036158318E2BA2200800C19 /* Reachability_Device.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -163,7 +163,7 @@
 		5A500F0D188FB1C20022E07C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = xll;
 			};
 			buildConfigurationList = 5A500F10188FB1C20022E07C /* Build configuration list for PBXProject "EUExDevice" */;
@@ -267,6 +267,7 @@
 		5A500F39188FB1C20022E07C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/uexDevice/";
 				DSTROOT = /tmp/EUExDevice.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -281,6 +282,7 @@
 		5A500F3A188FB1C20022E07C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/uexDevice/";
 				DSTROOT = /tmp/EUExDevice.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

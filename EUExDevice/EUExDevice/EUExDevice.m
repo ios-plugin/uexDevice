@@ -38,7 +38,7 @@
 }
 
 -(void)dealloc{
-    [super dealloc];
+
 }
 
 #pragma mark -
@@ -92,7 +92,6 @@
     CTTelephonyNetworkInfo *ctni = [[CTTelephonyNetworkInfo alloc] init];
     CTCarrier *carrier = [ctni subscriberCellularProvider];
     NSString *carrierName =carrier.carrierName;
-    [ctni release];
     if ([carrierName length]>0) {
         return @"1";
     }
@@ -340,7 +339,7 @@ typedef enum {
         CTTelephonyNetworkInfo *info = [[CTTelephonyNetworkInfo alloc] init];
         CTCarrier *carrier = info.subscriberCellularProvider;
         NSString * carrierName = carrier.carrierName;
-        [info release];
+
         
         if (!carrierName || [carrierName isKindOfClass:[NSNull class]]) {
             return @"";
@@ -419,6 +418,8 @@ typedef enum {
                                              @"iPad5,2":@"iPad mini 4",
                                              @"iPad5,3":@"iPad Air 2",
                                              @"iPad5,4":@"iPad Air 2",
+                                             @"iPad6,7":@"iPad Pro",
+                                             @"iPad6,8":@"iPad Pro",
                                              //iPhone Simulator
                                              @"i386":@"iPhone Simulator",
                                              @"x86_64":@"iPhone Simulator",
@@ -468,23 +469,19 @@ typedef enum {
 }
 
 -(NSString *)getUUID{
-    CFUUIDRef puuid = CFUUIDCreate( nil );
-    CFStringRef uuidString = CFUUIDCreateString( nil, puuid );
-    NSString * result = (NSString *)CFStringCreateCopy( NULL, uuidString);
-    CFRelease(puuid);
-    CFRelease(uuidString);
-    return [result autorelease];
+    NSUUID *uuid = [NSUUID UUID];
+    return uuid.UUIDString;
 }
 
--(void)getInfo:(NSMutableArray *)inArguments {
+-(NSString *)getInfo:(NSMutableArray *)inArguments {
     PluginLog(@"[EUExDevice getInfo]");
-    NSString *inInfoID = [inArguments objectAtIndex:0];
-    NSString *outStr = nil;
+    NSInteger inInfoID = [[inArguments objectAtIndex:0] integerValue];
+    NSString *outStr = @"";
     NSString *outKey = nil;
     //枚举替代整数值
     //0 不支持
     //1 支持
-    switch ([inInfoID intValue]) {
+    switch (inInfoID) {
         case F_DEVICE_INFO_ID_CPU_FREQUENCY:
         {
             outKey = UEX_JKCPU;
@@ -605,7 +602,7 @@ typedef enum {
         }
     }
     [self jsSuccessWithName:@"uexDevice.cbGetInfo" opId:0 dataType:UEX_CALLBACK_DATATYPE_JSON strData:[argsDict JSONFragment]];
-    [argsDict release];
+    return outStr;
 }
 
 #pragma mark -
@@ -756,13 +753,14 @@ typedef enum {
         return;
     }
 }
-- (void)getVolume:(NSMutableArray *)inArguments{
+- (NSNumber *)getVolume:(NSMutableArray *)inArguments{
     CGFloat volumeValue=[[MPMusicPlayerController applicationMusicPlayer] volume];
     NSMutableDictionary *volumeVal=[NSMutableDictionary dictionary];
-    [volumeVal setValue:[NSString stringWithFormat:@"%f",volumeValue] forKey:@"volume"];
+    [volumeVal setValue:@(volumeValue) forKey:@"volume"];
     NSString *result=[volumeVal JSONFragment];
     NSString *cbStr=[NSString stringWithFormat:@"if(uexDevice.cbGetVolume != null){uexDevice.cbGetVolume('%@');}",result];
     [EUtility brwView:meBrwView evaluateScript:cbStr];
+    return @(volumeValue);
 }
 
 #pragma mark -
@@ -824,13 +822,14 @@ typedef enum {
     }
     
 }
--(void)getScreenBrightness:(NSMutableArray *)inArguments{
+-(NSNumber *)getScreenBrightness:(NSMutableArray *)inArguments{
     CGFloat brightness=[[UIScreen mainScreen] brightness];
     NSMutableDictionary *brightnessVal=[NSMutableDictionary dictionary];
-    [brightnessVal setValue:[NSString stringWithFormat:@"%f",brightness] forKey:@"brightness"];
+    [brightnessVal setValue:@(brightness) forKey:@"brightness"];
     NSString *result=[brightnessVal JSONFragment];
     NSString *cbStr=[NSString stringWithFormat:@"if(uexDevice.cbGetScreenBrightness != null){uexDevice.cbGetScreenBrightness('%@');}",result];
     [EUtility brwView:meBrwView evaluateScript:cbStr];
+    return @(brightness);
 }
 
 #pragma mark -
