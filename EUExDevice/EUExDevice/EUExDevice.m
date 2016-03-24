@@ -364,6 +364,11 @@ typedef enum {
 -(NSString*)getHardwareSys{
     NSString *platform = [self getDeviceVer];
     
+    NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"uexDeviceBundle" ofType:@"bundle"];
+    
+    NSDictionary *platformInfoDictionary = [NSDictionary dictionaryWithContentsOfFile:[resourceBundlePath stringByAppendingPathComponent:@"DeviceVersion.plist"]];
+    
+  /*
     NSDictionary * platformInfoDictionary =@{//https://www.theiphonewiki.com/wiki/Models
                                              //iPhone
                                              @"iPhone1,1":@"iPhone 1G",
@@ -424,7 +429,7 @@ typedef enum {
                                              @"i386":@"iPhone Simulator",
                                              @"x86_64":@"iPhone Simulator",
                                              };
-    
+    */
     
     if([platformInfoDictionary objectForKey:platform]){
         return [platformInfoDictionary objectForKey:platform];

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
     <plugin
-        uexName="uexDevice" version="3.0.8" build="8">
-        <info>8:修改工程为arc;部分接口支持同步回调;设备型号现在可以识别iPad Pro</info>
+        uexName="uexDevice" version="3.0.9" build="9">
+        <info>9:修改获取设备型号的方式，添加设备型号</info>
+        <build>8:修改工程为arc;部分接口支持同步回调;设备型号现在可以识别iPad Pro</build>
         <build>7:openSetting接口支持打开推送通知设置</build>
         <build>6:添加判断功能是否开启,以及打开设置界面接口</build>
         <build>5:添加IDE支持</build>
