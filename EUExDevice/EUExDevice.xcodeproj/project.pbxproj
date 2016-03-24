@@ -9,8 +9,20 @@
 /* Begin PBXBuildFile section */
 		5A500F19188FB1C20022E07C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A500F18188FB1C20022E07C /* Foundation.framework */; };
 		5A500F20188FB1C20022E07C /* EUExDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A500F1F188FB1C20022E07C /* EUExDevice.m */; };
+		76649F4F1CA2814500B5691A /* DeviceVersion.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76649F4E1CA2814500B5691A /* DeviceVersion.plist */; };
+		76649F521CA281E800B5691A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 76649F541CA281E800B5691A /* Localizable.strings */; };
 		A036158418E2BA2200800C19 /* Reachability_Device.m in Sources */ = {isa = PBXBuildFile; fileRef = A036158318E2BA2200800C19 /* Reachability_Device.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		76649F561CA284DC00B5691A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5A500F0D188FB1C20022E07C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 76649F451CA27F8600B5691A;
+			remoteInfo = uexDeviceBundle;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		5A500F13188FB1C20022E07C /* CopyFiles */ = {
@@ -41,6 +53,10 @@
 		5A500F4A188FB1F90022E07C /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
 		5A500F4B188FB1F90022E07C /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		5A60A96D18AB676100C727A6 /* EUExDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EUExDevice.h; sourceTree = "<group>"; };
+		76649F461CA27F8600B5691A /* uexDeviceBundle.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = uexDeviceBundle.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		76649F4E1CA2814500B5691A /* DeviceVersion.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DeviceVersion.plist; sourceTree = "<group>"; };
+		76649F531CA281E800B5691A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		76649F551CA283CC00B5691A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		A036158218E2BA2200800C19 /* Reachability_Device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability_Device.h; sourceTree = "<group>"; };
 		A036158318E2BA2200800C19 /* Reachability_Device.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability_Device.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -54,6 +70,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		76649F431CA27F8600B5691A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -61,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				5A500F1A188FB1C20022E07C /* EUExDevice */,
+				76649F471CA27F8600B5691A /* uexDeviceBundle */,
 				5A500F17188FB1C20022E07C /* Frameworks */,
 				5A500F16188FB1C20022E07C /* Products */,
 			);
@@ -70,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				5A500F15188FB1C20022E07C /* libuexDevice.a */,
+				76649F461CA27F8600B5691A /* uexDeviceBundle.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -137,6 +162,15 @@
 			path = JSON;
 			sourceTree = "<group>";
 		};
+		76649F471CA27F8600B5691A /* uexDeviceBundle */ = {
+			isa = PBXGroup;
+			children = (
+				76649F4E1CA2814500B5691A /* DeviceVersion.plist */,
+				76649F541CA281E800B5691A /* Localizable.strings */,
+			);
+			path = uexDeviceBundle;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -151,11 +185,29 @@
 			buildRules = (
 			);
 			dependencies = (
+				76649F571CA284DC00B5691A /* PBXTargetDependency */,
 			);
 			name = EUExDevice;
 			productName = EUExDevice;
 			productReference = 5A500F15188FB1C20022E07C /* libuexDevice.a */;
 			productType = "com.apple.product-type.library.static";
+		};
+		76649F451CA27F8600B5691A /* uexDeviceBundle */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 76649F491CA27F8600B5691A /* Build configuration list for PBXNativeTarget "uexDeviceBundle" */;
+			buildPhases = (
+				76649F421CA27F8600B5691A /* Sources */,
+				76649F431CA27F8600B5691A /* Frameworks */,
+				76649F441CA27F8600B5691A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = uexDeviceBundle;
+			productName = uexDeviceBundle;
+			productReference = 76649F461CA27F8600B5691A /* uexDeviceBundle.bundle */;
+			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
 
@@ -165,6 +217,11 @@
 			attributes = {
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = xll;
+				TargetAttributes = {
+					76649F451CA27F8600B5691A = {
+						CreatedOnToolsVersion = 7.3;
+					};
+				};
 			};
 			buildConfigurationList = 5A500F10188FB1C20022E07C /* Build configuration list for PBXProject "EUExDevice" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -172,6 +229,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				"zh-Hans",
 			);
 			mainGroup = 5A500F0C188FB1C20022E07C;
 			productRefGroup = 5A500F16188FB1C20022E07C /* Products */;
@@ -179,9 +237,22 @@
 			projectRoot = "";
 			targets = (
 				5A500F14188FB1C20022E07C /* EUExDevice */,
+				76649F451CA27F8600B5691A /* uexDeviceBundle */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		76649F441CA27F8600B5691A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76649F4F1CA2814500B5691A /* DeviceVersion.plist in Resources */,
+				76649F521CA281E800B5691A /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5A500F11188FB1C20022E07C /* Sources */ = {
@@ -193,7 +264,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		76649F421CA27F8600B5691A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		76649F571CA284DC00B5691A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 76649F451CA27F8600B5691A /* uexDeviceBundle */;
+			targetProxy = 76649F561CA284DC00B5691A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		76649F541CA281E800B5691A /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				76649F531CA281E800B5691A /* en */,
+				76649F551CA283CC00B5691A /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		5A500F36188FB1C20022E07C /* Debug */ = {
@@ -274,6 +372,7 @@
 				GCC_PREFIX_HEADER = "EUExDevice/EUExDevice-Prefix.pch";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_MODULE_NAME = uexDevice;
 				PRODUCT_NAME = uexDevice;
 				SKIP_INSTALL = YES;
 			};
@@ -289,8 +388,61 @@
 				GCC_PREFIX_HEADER = "EUExDevice/EUExDevice-Prefix.pch";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_MODULE_NAME = uexDevice;
 				PRODUCT_NAME = uexDevice;
 				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		76649F4A1CA27F8600B5691A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/uexDevice";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zywx.uexDeviceBundle;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		76649F4B1CA27F8600B5691A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/uexDevice";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zywx.uexDeviceBundle;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;
 		};
@@ -314,6 +466,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		76649F491CA27F8600B5691A /* Build configuration list for PBXNativeTarget "uexDeviceBundle" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				76649F4A1CA27F8600B5691A /* Debug */,
+				76649F4B1CA27F8600B5691A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
