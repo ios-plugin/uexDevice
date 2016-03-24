@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2C6711109C9A5E27B5D50FC1 /* AppCanEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98C82C4020A44704754CDE1A /* AppCanEngine.framework */; };
 		308EE195E660D3DD73B5C3B4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 213AA819C0A72B53815C9C6F /* AudioToolbox.framework */; };
+		420B04CD1CA3DC4900E012B2 /* uexDevice.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 420B04CB1CA3DC3D00E012B2 /* uexDevice.bundle */; };
 		4A82D3BDE9FA409838F09EFB /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1514180D9321FC948659F614 /* ImageIO.framework */; };
 		5A500F19188FB1C20022E07C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A500F18188FB1C20022E07C /* Foundation.framework */; };
 		5A500F20188FB1C20022E07C /* EUExDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A500F1F188FB1C20022E07C /* EUExDevice.m */; };
@@ -45,6 +46,7 @@
 		251EBA77388F47AD90E5CD17 /* QuartzCore.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		37DFA2134FC6632CA8C4424D /* libc++.tbd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = archive.ar; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		3C7C3A12926141E789CB7A15 /* CFNetWork.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = CFNetWork.framework; path = System/Library/Frameworks/CFNetWork.framework; sourceTree = SDKROOT; };
+		420B04CB1CA3DC3D00E012B2 /* uexDevice.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = uexDevice.bundle; path = uexDevice/uexDevice.bundle; sourceTree = SOURCE_ROOT; };
 		5A500F15188FB1C20022E07C /* uexDevice.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = uexDevice.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A500F18188FB1C20022E07C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5A500F1C188FB1C20022E07C /* EUExDevice-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EUExDevice-Prefix.pch"; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 		5A500F1A188FB1C20022E07C /* EUExDevice */ = {
 			isa = PBXGroup;
 			children = (
+				420B04CB1CA3DC3D00E012B2 /* uexDevice.bundle */,
 				5A60A96D18AB676100C727A6 /* EUExDevice.h */,
 				5A500F1F188FB1C20022E07C /* EUExDevice.m */,
 				5A500F3E188FB1F90022E07C /* engineHeader */,
@@ -221,6 +224,7 @@
 				5A500F11188FB1C20022E07C /* Sources */,
 				5A500F12188FB1C20022E07C /* Frameworks */,
 				5A500F13188FB1C20022E07C /* CopyFiles */,
+				420B04CC1CA3DC4500E012B2 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -256,6 +260,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		420B04CC1CA3DC4500E012B2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				420B04CD1CA3DC4900E012B2 /* uexDevice.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5A500F11188FB1C20022E07C /* Sources */ = {

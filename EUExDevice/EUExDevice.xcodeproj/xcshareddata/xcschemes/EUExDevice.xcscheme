@@ -14,6 +14,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "76649F451CA27F8600B5691A"
+               BuildableName = "uexDeviceBundle.bundle"
+               BlueprintName = "uexDeviceBundle"
+               ReferencedContainer = "container:EUExDevice.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "5A500F14188FB1C20022E07C"
                BuildableName = "libuexDevice.a"
                BlueprintName = "EUExDevice"
@@ -29,6 +43,15 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "5A500F14188FB1C20022E07C"
+            BuildableName = "libuexDevice.a"
+            BlueprintName = "EUExDevice"
+            ReferencedContainer = "container:EUExDevice.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>

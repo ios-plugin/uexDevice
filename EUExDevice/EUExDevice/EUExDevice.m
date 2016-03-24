@@ -364,7 +364,7 @@ typedef enum {
 -(NSString*)getHardwareSys{
     NSString *platform = [self getDeviceVer];
     
-    NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"uexDeviceBundle" ofType:@"bundle"];
+    NSString *resourceBundlePath = [[EUtility bundleForPlugin:@"uexDevice"] resourcePath];
     
     NSDictionary *platformInfoDictionary = [NSDictionary dictionaryWithContentsOfFile:[resourceBundlePath stringByAppendingPathComponent:@"DeviceVersion.plist"]];
     

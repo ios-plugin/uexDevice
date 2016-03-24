@@ -14,16 +14,6 @@
 		A036158418E2BA2200800C19 /* Reachability_Device.m in Sources */ = {isa = PBXBuildFile; fileRef = A036158318E2BA2200800C19 /* Reachability_Device.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		76649F561CA284DC00B5691A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5A500F0D188FB1C20022E07C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 76649F451CA27F8600B5691A;
-			remoteInfo = uexDeviceBundle;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		5A500F13188FB1C20022E07C /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -53,7 +43,7 @@
 		5A500F4A188FB1F90022E07C /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
 		5A500F4B188FB1F90022E07C /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		5A60A96D18AB676100C727A6 /* EUExDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EUExDevice.h; sourceTree = "<group>"; };
-		76649F461CA27F8600B5691A /* uexDeviceBundle.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = uexDeviceBundle.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		76649F461CA27F8600B5691A /* uexDevice.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = uexDevice.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		76649F4E1CA2814500B5691A /* DeviceVersion.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DeviceVersion.plist; sourceTree = "<group>"; };
 		76649F531CA281E800B5691A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		76649F551CA283CC00B5691A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -94,7 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				5A500F15188FB1C20022E07C /* libuexDevice.a */,
-				76649F461CA27F8600B5691A /* uexDeviceBundle.bundle */,
+				76649F461CA27F8600B5691A /* uexDevice.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -185,7 +175,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				76649F571CA284DC00B5691A /* PBXTargetDependency */,
 			);
 			name = EUExDevice;
 			productName = EUExDevice;
@@ -206,7 +195,7 @@
 			);
 			name = uexDeviceBundle;
 			productName = uexDeviceBundle;
-			productReference = 76649F461CA27F8600B5691A /* uexDeviceBundle.bundle */;
+			productReference = 76649F461CA27F8600B5691A /* uexDevice.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -272,14 +261,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		76649F571CA284DC00B5691A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 76649F451CA27F8600B5691A /* uexDeviceBundle */;
-			targetProxy = 76649F561CA284DC00B5691A /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		76649F541CA281E800B5691A /* Localizable.strings */ = {
@@ -413,7 +394,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zywx.uexDeviceBundle;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = uexDevice;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = bundle;
@@ -439,7 +420,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zywx.uexDeviceBundle;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = uexDevice;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = bundle;
@@ -474,6 +455,7 @@
 				76649F4B1CA27F8600B5691A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
