@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "76649F451CA27F8600B5691A"
-               BuildableName = "uexDeviceBundle.bundle"
+               BuildableName = "uexDevice.bundle"
                BlueprintName = "uexDeviceBundle"
                ReferencedContainer = "container:EUExDevice.xcodeproj">
             </BuildableReference>
