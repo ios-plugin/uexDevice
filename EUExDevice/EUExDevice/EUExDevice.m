@@ -913,7 +913,8 @@ typedef enum {
         isSuccess = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=NOTIFICATIONS_ID"]];
     }
     if(!setting || setting.length == 0){
-        isSuccess = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+//        isSuccess = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+        isSuccess = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root"]];
     }
     //网络设置
 //    else if([setting isEqualToString:@"NETWORK"]){
