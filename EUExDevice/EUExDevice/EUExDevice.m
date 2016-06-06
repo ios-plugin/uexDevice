@@ -27,15 +27,12 @@
 #include <sys/sysctl.h>
 @interface EUExDevice()<CBCentralManagerDelegate>
 @property (nonatomic,strong)CBCentralManager *CBManager;
+@property(nonatomic,strong)ACJSFunctionRef *funRef;
 @end
 
 @implementation EUExDevice
 
--(id)initWithBrwView:(EBrowserView *) eInBrwView{
-    if (self = [super initWithBrwView:eInBrwView]) {
-    }
-    return self;
-}
+
 
 -(void)dealloc{
 
@@ -606,7 +603,8 @@ typedef enum {
             [argsDict setObject:outStr forKey:outKey];
         }
     }
-    [self jsSuccessWithName:@"uexDevice.cbGetInfo" opId:0 dataType:UEX_CALLBACK_DATATYPE_JSON strData:[argsDict JSONFragment]];
+    //[self jsSuccessWithName:@"uexDevice.cbGetInfo" opId:0 dataType:UEX_CALLBACK_DATATYPE_JSON strData:[argsDict JSONFragment]];
+    [self.webViewEngine callbackWithFunctionKeyPath:@"uexDevice.cbGetInfo" arguments:ACArgsPack(@0,@1,[argsDict ac_JSONFragment])];
     return outStr;
 }
 
@@ -666,10 +664,11 @@ typedef enum {
 #pragma mark - Screen Capture
 
 -(void)screenCapture:(NSMutableArray *)inArguments{
+    ACArgsUnpack(NSNumber*info,ACJSFunctionRef *func) = inArguments;
     if(inArguments.count < 1){
         return;
     }
-    CGFloat quality=[inArguments[0] floatValue];
+    CGFloat quality=[info floatValue];
     if(quality <=1&& quality>=0){
         UIWindow *screenWindow = [[UIApplication sharedApplication] keyWindow];
         UIGraphicsBeginImageContext(screenWindow.frame.size);//全屏截图，包括window
@@ -677,7 +676,7 @@ typedef enum {
         UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         NSString *savePath=[self saveImage:viewImage quality:quality];
-        [self cbSavePath:savePath];
+        [self cbSavePath:savePath FunctionRef:func];
         //保存到系统相册
         //UIImageWriteToSavedPhotosAlbum(viewImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
     }
@@ -686,18 +685,16 @@ typedef enum {
     }
 }
 //callback
--(void) cbSavePath:(NSString*)savePath{
+-(void)cbSavePath:(NSString*)savePath FunctionRef:(ACJSFunctionRef*)func{
     NSMutableDictionary *path=[NSMutableDictionary dictionary];
     [path setValue:savePath forKey:@"savePath"];
-    NSString *result=[path JSONFragment];
-    NSString *cbStr=[NSString stringWithFormat:@"if(uexDevice.cbScreenCapture != null){uexDevice.cbScreenCapture('%@');}",result];
-    [EUtility brwView:meBrwView evaluateScript:cbStr];
+    [self callBackJsonWithFunction:@"cbScreenCapture" dicParameter:path];
+    [func executeWithArguments:ACArgsPack(path)];
 }
 
 -(NSString *)getSaveDirPath{
     NSString *tempPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/apps"];
-    NSString *wgtTempPath=[tempPath stringByAppendingPathComponent:[EUtility brwViewWidgetId:meBrwView]];
-    
+    NSString *wgtTempPath=[tempPath stringByAppendingPathComponent:[[self.webViewEngine widget] widgetId]];
     return [wgtTempPath stringByAppendingPathComponent:@"uexDevice"];
 }
 // save to Disk
@@ -748,7 +745,6 @@ typedef enum {
         //不显示滑动条和音量界面
         volumeView.showsVolumeSlider = NO;
         volumeView.hidden=NO;
-        
         [volumeViewSlider setValue:volumeValue animated:NO];
         [volumeViewSlider sendActionsForControlEvents:UIControlEventTouchUpInside];
         
@@ -762,9 +758,7 @@ typedef enum {
     CGFloat volumeValue=[[MPMusicPlayerController applicationMusicPlayer] volume];
     NSMutableDictionary *volumeVal=[NSMutableDictionary dictionary];
     [volumeVal setValue:@(volumeValue) forKey:@"volume"];
-    NSString *result=[volumeVal JSONFragment];
-    NSString *cbStr=[NSString stringWithFormat:@"if(uexDevice.cbGetVolume != null){uexDevice.cbGetVolume('%@');}",result];
-    [EUtility brwView:meBrwView evaluateScript:cbStr];
+    [self callBackJsonWithFunction:@"cbGetVolume" dicParameter:volumeVal];
     return @(volumeValue);
 }
 
@@ -831,9 +825,7 @@ typedef enum {
     CGFloat brightness=[[UIScreen mainScreen] brightness];
     NSMutableDictionary *brightnessVal=[NSMutableDictionary dictionary];
     [brightnessVal setValue:@(brightness) forKey:@"brightness"];
-    NSString *result=[brightnessVal JSONFragment];
-    NSString *cbStr=[NSString stringWithFormat:@"if(uexDevice.cbGetScreenBrightness != null){uexDevice.cbGetScreenBrightness('%@');}",result];
-    [EUtility brwView:meBrwView evaluateScript:cbStr];
+    [self callBackJsonWithFunction:@"cbGetScreenBrightness" dicParameter:brightnessVal];
     return @(brightness);
 }
 
@@ -845,10 +837,10 @@ typedef enum {
 }
 #pragma mark - setting
 -(void)isFunctionEnable:(NSMutableArray *)inArguments{
+     ACArgsUnpack(NSDictionary*info,ACJSFunctionRef *func) = inArguments;
     if(inArguments.count<1){
         return;
     }
-    id info=[inArguments[0] JSONValue];
     NSString *setting=[info objectForKey:@"setting"];
     NSMutableDictionary *result=[NSMutableDictionary dictionary];
     [result setValue:setting forKey:@"setting"];
@@ -861,19 +853,15 @@ typedef enum {
         }
     }
     else if([setting isEqualToString:@"BLUETOOTH"]){
+        self.funRef = func;
         self.CBManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
         return;
     }
-//    else if([setting isEqualToString:@"NETWORK"]){
-//        NSString *net=[self getConnectStatus];
-//        BOOL status=[Reachability_Device isNetWorkReachable];
-//        NSLog(@"-----------%@",net);
-//    }
     else{
         [result setValue:@(NO) forKey:@"isEnable"];
     }
-    NSString *cbStr=[NSString stringWithFormat:@"if(uexDevice.cbIsFunctionEnable != null){uexDevice.cbIsFunctionEnable('%@');}",[result JSONFragment]];
-    [EUtility brwView:meBrwView evaluateScript:cbStr];
+    [self callBackJsonWithFunction:@"cbIsFunctionEnable" dicParameter:result];
+    [func executeWithArguments:ACArgsPack(result)];
 }
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central{
     NSMutableDictionary *result=[NSMutableDictionary dictionary];
@@ -884,47 +872,60 @@ typedef enum {
     else{
         [result setValue:@(NO) forKey:@"isEnable"];
     }
-    NSString *cbStr=[NSString stringWithFormat:@"if(uexDevice.cbIsFunctionEnable != null){uexDevice.cbIsFunctionEnable('%@');}",[result JSONFragment]];
-    [EUtility brwView:meBrwView evaluateScript:cbStr];
+    [self callBackJsonWithFunction:@"cbIsFunctionEnable" dicParameter:result];
+    [self.funRef executeWithArguments:ACArgsPack(result)];
     self.CBManager = nil;
+    self.funRef = nil;
 }
 -(void)openSetting:(NSMutableArray *)inArguments{
     NSString *setting = @"";
-    id info=[inArguments[0] JSONValue];
+    ACArgsUnpack(NSDictionary*info,ACJSFunctionRef *func) = inArguments;
     if (info && [info isKindOfClass:[NSDictionary class]] && [info[@"setting"] isKindOfClass:[NSString class]]) {
         setting = info[@"setting"];
     }
     NSMutableDictionary *result=[NSMutableDictionary dictionary];
     [result setValue:setting forKey:@"setting"];
     BOOL isSuccess = NO;
-    
     //定位设置
     if([setting isEqual:@"GPS"]){
         isSuccess = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=LOCATION_SERVICES"]];
-
+        
     }
     //蓝牙设置
     if ([setting isEqual:@"BLUETOOTH"]){
         isSuccess = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=Bluetooth"]];
-
+        
     }
     //推送设置
     if ([setting isEqual:@"NOTIFICATION"]){
         isSuccess = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=NOTIFICATIONS_ID"]];
     }
     if(!setting || setting.length == 0){
-//        isSuccess = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+        //        isSuccess = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
         isSuccess = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root"]];
     }
     //网络设置
-//    else if([setting isEqualToString:@"NETWORK"]){
-//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=Network"]];
-//        [result setValue:@(0) forKey:@"errorCode"];
-//    }
+    //    else if([setting isEqualToString:@"NETWORK"]){
+    //        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=Network"]];
+    //        [result setValue:@(0) forKey:@"errorCode"];
+    //    }
     
     [result setValue:isSuccess?@0:@1 forKey:@"errorCode"];
-    NSString *cbStr=[NSString stringWithFormat:@"if(uexDevice.cbOpenSetting != null){uexDevice.cbOpenSetting('%@');}",[result JSONFragment]];
-    [EUtility brwView:meBrwView evaluateScript:cbStr];
+    [self callBackJsonWithFunction:@"cbOpenSetting" dicParameter:result];
+    [func executeWithArguments:ACArgsPack(result)];
+}
+
+#pragma mark - CallBack Method
+const static NSString *kPluginName=@"uexDevice";
+-(void)callBackJsonWithFunction:(NSString *)functionName dicParameter:(NSMutableDictionary*)obj{
+    NSString *jsonStr = [NSString stringWithFormat:@"%@.%@",kPluginName,functionName];
+    NSArray * args = ACArgsPack(obj.ac_JSONFragment);
+    [self.webViewEngine callbackWithFunctionKeyPath:jsonStr arguments:args completion:^(JSValue * _Nonnull returnValue) {
+        if (returnValue) {
+            NSLog(@"回调成功!");
+        }
+    }];
+    
 }
 @end
 

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		09F76EBF1D000A8C00F3C570 /* AppCanKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09F76EBE1D000A8C00F3C570 /* AppCanKit.framework */; };
 		5A500F19188FB1C20022E07C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A500F18188FB1C20022E07C /* Foundation.framework */; };
 		5A500F20188FB1C20022E07C /* EUExDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A500F1F188FB1C20022E07C /* EUExDevice.m */; };
 		76649F4F1CA2814500B5691A /* DeviceVersion.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76649F4E1CA2814500B5691A /* DeviceVersion.plist */; };
@@ -27,11 +28,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		09F76EBE1D000A8C00F3C570 /* AppCanKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppCanKit.framework; sourceTree = "<group>"; };
 		5A500F15188FB1C20022E07C /* libuexDevice.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libuexDevice.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A500F18188FB1C20022E07C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5A500F1C188FB1C20022E07C /* EUExDevice-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EUExDevice-Prefix.pch"; sourceTree = "<group>"; };
 		5A500F1F188FB1C20022E07C /* EUExDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EUExDevice.m; sourceTree = "<group>"; };
-		5A500F3F188FB1F90022E07C /* EUExBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EUExBase.h; sourceTree = "<group>"; };
 		5A500F40188FB1F90022E07C /* EUExBaseDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EUExBaseDefine.h; sourceTree = "<group>"; };
 		5A500F41188FB1F90022E07C /* EUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EUtility.h; sourceTree = "<group>"; };
 		5A500F43188FB1F90022E07C /* AppCanAnalysis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppCanAnalysis.h; sourceTree = "<group>"; };
@@ -56,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09F76EBF1D000A8C00F3C570 /* AppCanKit.framework in Frameworks */,
 				5A500F19188FB1C20022E07C /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -120,7 +122,6 @@
 		5A500F3E188FB1F90022E07C /* engineHeader */ = {
 			isa = PBXGroup;
 			children = (
-				5A500F3F188FB1F90022E07C /* EUExBase.h */,
 				5A500F40188FB1F90022E07C /* EUExBaseDefine.h */,
 				5A500F41188FB1F90022E07C /* EUtility.h */,
 			);
@@ -130,6 +131,7 @@
 		5A500F42188FB1F90022E07C /* sourceCode */ = {
 			isa = PBXGroup;
 			children = (
+				09F76EBE1D000A8C00F3C570 /* AppCanKit.framework */,
 				A036158218E2BA2200800C19 /* Reachability_Device.h */,
 				A036158318E2BA2200800C19 /* Reachability_Device.m */,
 				5A500F43188FB1F90022E07C /* AppCanAnalysis.h */,
@@ -349,6 +351,10 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/uexDevice/";
 				DSTROOT = /tmp/EUExDevice.dst;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/EUExDevice/sourceCode",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EUExDevice/EUExDevice-Prefix.pch";
 				ONLY_ACTIVE_ARCH = NO;
@@ -365,6 +371,10 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/uexDevice/";
 				DSTROOT = /tmp/EUExDevice.dst;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/EUExDevice/sourceCode",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EUExDevice/EUExDevice-Prefix.pch";
 				ONLY_ACTIVE_ARCH = NO;
