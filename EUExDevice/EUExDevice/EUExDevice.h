@@ -6,7 +6,7 @@
 //  Copyright 2011 AppCan. All rights reserved.
 //
 
-
+#import "EUExBase.h"
 #import <UIKit/UIKit.h>
 
 #define UEX_JKCPU					@"cpu"
