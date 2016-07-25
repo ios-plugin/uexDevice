@@ -34,7 +34,7 @@
 
 
 
--(void)dealloc{
+- (void)dealloc{
 
 }
 
@@ -47,31 +47,31 @@
 //iPod3,1   -> iPod touch 3G
 //iPod4,1   -> iPod touch 4G
 //iPad1,1   -> iPad 1G, WiFi
--(NSString *)getCupFrequency{
+- (NSString *)getCupFrequency{
     return @"0";
 }
 
--(NSString *)getOSVersion{
+- (NSString *)getOSVersion{
     return [[UIDevice currentDevice] systemVersion];
 }
 
--(NSString *)getManuFacturer{
+- (NSString *)getManuFacturer{
     return @"Apple";
 }
 
--(NSString *)getKeyBoardType{
+- (NSString *)getKeyBoardType{
     return @"0";
 }
 
--(NSString *)getBlueToothSupport{
+- (NSString *)getBlueToothSupport{
     return @"0";
 }
 
--(NSString *)getWifiSupport{
+- (NSString *)getWifiSupport{
     return @"1";
 }
 
--(NSString *)getCameraSupport{
+- (NSString *)getCameraSupport{
     
     NSString *sysVersion = [EUtility getPlatform];
     if ([sysVersion isEqualToString:@"iPod1,1"]||[sysVersion isEqualToString:@"iPod2,1"]||[sysVersion isEqualToString:@"iPod2,2"]||[sysVersion isEqualToString:@"iPod3,1"]||[sysVersion isEqualToString:@"iPad1,1"]||[sysVersion isEqualToString:@"i386"]) {
@@ -81,7 +81,7 @@
     }
 }
 
--(NSString *)getGpsSupport{
+- (NSString *)getGpsSupport{
     //07.18 update
     if ([[[UIDevice currentDevice] systemVersion]floatValue ]<4.0) {
         return @"0";
@@ -96,23 +96,23 @@
     
 }
 
--(NSString *)getGprsSupport{
+- (NSString *)getGprsSupport{
     if ([[Reachability_Device reachabilityWithHostName:@"http://www.baidu.com"] currentReachabilityStatus]==ReachableVia2G) {
         return @"1";
     }
     return @"0";
 }
 
--(NSString *)getTouchScreenType{
+- (NSString *)getTouchScreenType{
     return @"1";
 }
 
--(NSString *)getImei{
+- (NSString *)getImei{
     //getImei 是私有方法
     return [EUtility deviceIdentifyNo];
 }
 
--(NSString *)getDeviceToken{
+- (NSString *)getDeviceToken{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *devToken = [defaults objectForKey:@"deviceToken"];
     if ([devToken isKindOfClass:[NSString class]] && devToken.length>0) {
@@ -122,7 +122,7 @@
     }
 }
 
--(NSString *)getDeviceType{
+- (NSString *)getDeviceType{
     NSString *resStr = [[UIDevice currentDevice] model];
     if ([resStr isEqualToString:@"iPad"]) {
         return @"1";
@@ -262,7 +262,7 @@ typedef enum {
     return retVal;
 }
 
--(NSString *)getConnectStatus{
+- (NSString *)getConnectStatus{
     if (![EUtility isNetConnected]) {
         return @"-1";
     }
@@ -324,11 +324,11 @@ typedef enum {
     }
     return freespace;
 }
--(NSString *)getDiskRestSize{
+- (NSString *)getDiskRestSize{
     //07.18 update
     return [NSString stringWithFormat:@"%lld",[self freeDiskSpaceInBytes]];
 }
--(NSString*)getCarrier{
+- (NSString *)getCarrier{
     if ([[self getOSVersion] floatValue]<4.0) {
         return @"";
     }
@@ -358,7 +358,7 @@ typedef enum {
     return platform;
 }
 
--(NSString*)getHardwareSys{
+- (NSString *)getHardwareSys{
     NSString *platform = [self getDeviceVer];
     
     NSString *resourceBundlePath = [[EUtility bundleForPlugin:@"uexDevice"] resourcePath];
@@ -456,11 +456,11 @@ typedef enum {
     return platform;
 }
 
--(NSString*)getModel{
+- (NSString *)getModel{
     return [self getHardwareSys];
 }
 
--(NSString*)getResolutionRatio{
+- (NSString *)getResolutionRatio{
     UIScreen *MainScreen = [UIScreen mainScreen];
     CGSize Size = [MainScreen bounds].size;
     CGFloat scale = [MainScreen scale];
@@ -470,12 +470,12 @@ typedef enum {
     return str;
 }
 
--(NSString *)getUUID{
+- (NSString *)getUUID{
     NSUUID *uuid = [NSUUID UUID];
     return uuid.UUIDString;
 }
 
--(NSString *)getInfo:(NSMutableArray *)inArguments {
+- (NSString *)getInfo:(NSMutableArray *)inArguments {
     PluginLog(@"[EUExDevice getInfo]");
     NSInteger inInfoID = [[inArguments objectAtIndex:0] integerValue];
     NSString *outStr = @"";
@@ -611,7 +611,7 @@ typedef enum {
 #pragma mark -
 #pragma mark - Vibrate
 
--(void)stopVibrate{
+- (void)stopVibrate{
     //AudioServicesRemoveSystemSoundCompletion(kSystemSoundID_Vibrate);
     if (vibrateTimer) {
         [vibrateTimer invalidate];
@@ -623,12 +623,12 @@ typedef enum {
     }
 }
 
--(void)playVibrate:(NSTimer *)timer{
+- (void)playVibrate:(NSTimer *)timer{
     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
     //float vibrateTime = [(NSString *)[timer userInfo] floatValue];
 }
 
--(void)vibrate:(NSMutableArray *)inArguments {
+- (void)vibrate:(NSMutableArray *)inArguments {
     PluginLog(@"[EUExDevice vibrate]");
     NSString *inMilliseconds = [inArguments objectAtIndex:0];
     if (vibrateTimer) {
@@ -643,12 +643,12 @@ typedef enum {
     times = [NSTimer scheduledTimerWithTimeInterval:vibrateTime target:self selector:@selector(stopVibrate) userInfo:nil repeats:NO];
 }
 
--(void)vibrateWithPattern:(NSArray*)inPattern repeat:(int)inRepeat{
+- (void)vibrateWithPattern:(NSArray*)inPattern repeat:(int)inRepeat{
     PluginLog(@"[EUExDevice vibrateWithPattern]");
 }
 
 //取消震动
--(void)cancelVibrate:(NSMutableArray *)inArguments {
+- (void)cancelVibrate:(NSMutableArray *)inArguments {
     PluginLog(@"[EUExDevice cancelVibrate]");
     if (vibrateTimer) {
         [vibrateTimer invalidate];
@@ -663,7 +663,7 @@ typedef enum {
 #pragma mark -
 #pragma mark - Screen Capture
 
--(void)screenCapture:(NSMutableArray *)inArguments{
+- (void)screenCapture:(NSMutableArray *)inArguments{
     ACArgsUnpack(NSNumber*info,ACJSFunctionRef *func) = inArguments;
     if(inArguments.count < 1){
         return;
@@ -685,20 +685,20 @@ typedef enum {
     }
 }
 //callback
--(void)cbSavePath:(NSString*)savePath FunctionRef:(ACJSFunctionRef*)func{
+- (void)cbSavePath:(NSString*)savePath FunctionRef:(ACJSFunctionRef*)func{
     NSMutableDictionary *path=[NSMutableDictionary dictionary];
     [path setValue:savePath forKey:@"savePath"];
     [self callBackJsonWithFunction:@"cbScreenCapture" dicParameter:path];
     [func executeWithArguments:ACArgsPack(path)];
 }
 
--(NSString *)getSaveDirPath{
+- (NSString *)getSaveDirPath{
     NSString *tempPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/apps"];
     NSString *wgtTempPath=[tempPath stringByAppendingPathComponent:[[self.webViewEngine widget] widgetId]];
     return [wgtTempPath stringByAppendingPathComponent:@"uexDevice"];
 }
 // save to Disk
--(NSString *)saveImage:(UIImage *)image quality:(CGFloat)quality{
+- (NSString *)saveImage:(UIImage *)image quality:(CGFloat)quality{
     NSData *imageData=UIImageJPEGRepresentation(image, quality);
     NSString *imageSuffix= @"jpg";
     
@@ -728,7 +728,7 @@ typedef enum {
 #pragma mark -
 #pragma mark - Volume
 
--(void)setVolume:(NSMutableArray *)inArguments{
+- (void)setVolume:(NSMutableArray *)inArguments{
     if(inArguments.count<1){
         return;
     }
@@ -765,7 +765,7 @@ typedef enum {
 #pragma mark -
 #pragma mark - Audio Category
 
--(void)setAudioCategory:(NSMutableArray *)inArguments{
+- (void)setAudioCategory:(NSMutableArray *)inArguments{
     if(inArguments.count<1){
         return;
     }
@@ -792,7 +792,7 @@ typedef enum {
 #pragma mark -
 #pragma mark - set Screen Always Bright
 
--(void)setScreenAlwaysBright:(NSMutableArray *)inArguments{
+- (void)setScreenAlwaysBright:(NSMutableArray *)inArguments{
     if(inArguments.count<1){
         return;
     }
@@ -808,7 +808,7 @@ typedef enum {
 #pragma mark -
 #pragma mark - Screen Brightness
 
--(void)setScreenBrightness:(NSMutableArray *)inArguments{
+- (void)setScreenBrightness:(NSMutableArray *)inArguments{
     if(inArguments.count<1){
         return;
     }
@@ -832,11 +832,14 @@ typedef enum {
 #pragma mark -
 #pragma mark - WIFI
 
--(void)openWiFiInterface:(NSMutableArray *)inArguments{
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=WIFI"]];
+- (void)openWiFiInterface:(NSMutableArray *)inArguments{
+    if ([UIDevice currentDevice].systemVersion.floatValue < 8.0){
+        return;
+    }
+    [[UIApplication sharedApplication]openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
 }
 #pragma mark - setting
--(void)isFunctionEnable:(NSMutableArray *)inArguments{
+- (void)isFunctionEnable:(NSMutableArray *)inArguments{
      ACArgsUnpack(NSDictionary*info,ACJSFunctionRef *func) = inArguments;
     if(inArguments.count<1){
         return;
@@ -877,47 +880,30 @@ typedef enum {
     self.CBManager = nil;
     self.funRef = nil;
 }
--(void)openSetting:(NSMutableArray *)inArguments{
-    NSString *setting = @"";
-    ACArgsUnpack(NSDictionary*info,ACJSFunctionRef *func) = inArguments;
-    if (info && [info isKindOfClass:[NSDictionary class]] && [info[@"setting"] isKindOfClass:[NSString class]]) {
-        setting = info[@"setting"];
-    }
-    NSMutableDictionary *result=[NSMutableDictionary dictionary];
-    [result setValue:setting forKey:@"setting"];
-    BOOL isSuccess = NO;
-    //定位设置
-    if([setting isEqual:@"GPS"]){
-        isSuccess = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=LOCATION_SERVICES"]];
-        
-    }
-    //蓝牙设置
-    if ([setting isEqual:@"BLUETOOTH"]){
-        isSuccess = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=Bluetooth"]];
-        
-    }
-    //推送设置
-    if ([setting isEqual:@"NOTIFICATION"]){
-        isSuccess = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=NOTIFICATIONS_ID"]];
-    }
-    if(!setting || setting.length == 0){
-        //        isSuccess = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-        isSuccess = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root"]];
-    }
-    //网络设置
-    //    else if([setting isEqualToString:@"NETWORK"]){
-    //        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=Network"]];
-    //        [result setValue:@(0) forKey:@"errorCode"];
-    //    }
+- (void)openSetting:(NSMutableArray *)inArguments{
     
-    [result setValue:isSuccess?@0:@1 forKey:@"errorCode"];
-    [self callBackJsonWithFunction:@"cbOpenSetting" dicParameter:result];
-    [func executeWithArguments:ACArgsPack(result)];
+    __block NSMutableDictionary *result=[NSMutableDictionary dictionary];
+    ACArgsUnpack(NSDictionary*info,ACJSFunctionRef *func) = inArguments;
+    NSString *setting = stringArg(info[@"setting"])?:@"";
+    [result setValue:setting forKey:@"setting"];
+    void (^callback)(BOOL isSuccess) = ^(BOOL isSuccess){
+        [result setValue:isSuccess?@0:@1 forKey:@"errorCode"];
+        [self callBackJsonWithFunction:@"cbOpenSetting" dicParameter:result];
+        [func executeWithArguments:ACArgsPack(result)];
+    };
+    
+    // UIApplicationOpenSettingsURLString 只支持8.0+系统
+    if ([UIDevice currentDevice].systemVersion.floatValue < 8.0){
+        callback(NO);
+        return;
+    }
+    BOOL isSuccess = [[UIApplication sharedApplication]openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+    callback(isSuccess);
 }
 
 #pragma mark - CallBack Method
 const static NSString *kPluginName=@"uexDevice";
--(void)callBackJsonWithFunction:(NSString *)functionName dicParameter:(NSMutableDictionary*)obj{
+- (void)callBackJsonWithFunction:(NSString *)functionName dicParameter:(NSMutableDictionary*)obj{
     NSString *jsonStr = [NSString stringWithFormat:@"%@.%@",kPluginName,functionName];
     NSArray * args = ACArgsPack(obj.ac_JSONFragment);
     [self.webViewEngine callbackWithFunctionKeyPath:jsonStr arguments:args completion:^(JSValue * _Nonnull returnValue) {
