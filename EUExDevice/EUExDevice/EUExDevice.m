@@ -37,8 +37,8 @@
     return self;
 }
 
--(void)dealloc{
-
+- (void)dealloc{
+    
 }
 
 #pragma mark -
@@ -180,47 +180,47 @@ typedef enum {
 }
 - (NSInteger) networkStatusForFlags: (SCNetworkReachabilityFlags) flags
 {
-//    if ((flags & kSCNetworkReachabilityFlagsReachable) == 0)
-//    {
-//        return NotReachable;
-//    }
-//    
-//    BOOL retVal = NotReachable;
-//    
-//    if ((flags & kSCNetworkReachabilityFlagsConnectionRequired) == 0)
-//    {
-//        retVal = ReachableViaWiFi;
-//    }
-//    if ((((flags & kSCNetworkReachabilityFlagsConnectionOnDemand ) != 0) ||
-//         (flags & kSCNetworkReachabilityFlagsConnectionOnTraffic) != 0))
-//    {
-//        if ((flags & kSCNetworkReachabilityFlagsInterventionRequired) == 0)
-//        {
-//            retVal = ReachableViaWiFi;
-//        }
-//    }
-//    if (flags & kSCNetworkReachabilityFlagsIsWWAN) {
-//        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
-//            CTTelephonyNetworkInfo *info = [[CTTelephonyNetworkInfo alloc] init];
-//            NSString *currentRadioAccessTechnology = info.currentRadioAccessTechnology;
-//            if (currentRadioAccessTechnology) {
-//                if ([currentRadioAccessTechnology isEqualToString:CTRadioAccessTechnologyLTE]) {
-//                    retVal =  ReachableVia4G;
-//                } else if ([currentRadioAccessTechnology isEqualToString:CTRadioAccessTechnologyEdge] || [currentRadioAccessTechnology isEqualToString:CTRadioAccessTechnologyGPRS]) {
-//                    retVal =  ReachableVia2G;
-//                } else {
-//                    retVal =  ReachableVia3G;
-//                }
-//            }
-//        }
-//        if ((flags & kSCNetworkReachabilityFlagsTransientConnection) == kSCNetworkReachabilityFlagsTransientConnection) {
-//            if((flags & kSCNetworkReachabilityFlagsConnectionRequired) == kSCNetworkReachabilityFlagsConnectionRequired) {
-//                retVal =  ReachableVia2G;
-//            }
-//            retVal =  ReachableVia3G;
-//        }
-//    }
-//    return retVal;
+    //    if ((flags & kSCNetworkReachabilityFlagsReachable) == 0)
+    //    {
+    //        return NotReachable;
+    //    }
+    //
+    //    BOOL retVal = NotReachable;
+    //
+    //    if ((flags & kSCNetworkReachabilityFlagsConnectionRequired) == 0)
+    //    {
+    //        retVal = ReachableViaWiFi;
+    //    }
+    //    if ((((flags & kSCNetworkReachabilityFlagsConnectionOnDemand ) != 0) ||
+    //         (flags & kSCNetworkReachabilityFlagsConnectionOnTraffic) != 0))
+    //    {
+    //        if ((flags & kSCNetworkReachabilityFlagsInterventionRequired) == 0)
+    //        {
+    //            retVal = ReachableViaWiFi;
+    //        }
+    //    }
+    //    if (flags & kSCNetworkReachabilityFlagsIsWWAN) {
+    //        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+    //            CTTelephonyNetworkInfo *info = [[CTTelephonyNetworkInfo alloc] init];
+    //            NSString *currentRadioAccessTechnology = info.currentRadioAccessTechnology;
+    //            if (currentRadioAccessTechnology) {
+    //                if ([currentRadioAccessTechnology isEqualToString:CTRadioAccessTechnologyLTE]) {
+    //                    retVal =  ReachableVia4G;
+    //                } else if ([currentRadioAccessTechnology isEqualToString:CTRadioAccessTechnologyEdge] || [currentRadioAccessTechnology isEqualToString:CTRadioAccessTechnologyGPRS]) {
+    //                    retVal =  ReachableVia2G;
+    //                } else {
+    //                    retVal =  ReachableVia3G;
+    //                }
+    //            }
+    //        }
+    //        if ((flags & kSCNetworkReachabilityFlagsTransientConnection) == kSCNetworkReachabilityFlagsTransientConnection) {
+    //            if((flags & kSCNetworkReachabilityFlagsConnectionRequired) == kSCNetworkReachabilityFlagsConnectionRequired) {
+    //                retVal =  ReachableVia2G;
+    //            }
+    //            retVal =  ReachableVia3G;
+    //        }
+    //    }
+    //    return retVal;
     if ((flags & kSCNetworkReachabilityFlagsReachable) == 0)
     {
         return NotReachable;
@@ -339,7 +339,7 @@ typedef enum {
         CTTelephonyNetworkInfo *info = [[CTTelephonyNetworkInfo alloc] init];
         CTCarrier *carrier = info.subscriberCellularProvider;
         NSString * carrierName = carrier.carrierName;
-
+        
         
         if (!carrierName || [carrierName isKindOfClass:[NSNull class]]) {
             return @"";
@@ -368,94 +368,94 @@ typedef enum {
     
     NSDictionary *platformInfoDictionary = [NSDictionary dictionaryWithContentsOfFile:[resourceBundlePath stringByAppendingPathComponent:@"DeviceVersion.plist"]];
     
-  /*
-    NSDictionary * platformInfoDictionary =@{//https://www.theiphonewiki.com/wiki/Models
-                                             //iPhone
-                                             @"iPhone1,1":@"iPhone 1G",
-                                             @"iPhone1,2":@"iPhone 3G",
-                                             @"iPhone2,1":@"iPhone 3GS",
-                                             @"iPhone3,1":@"iPhone 4",
-                                             @"iPhone3,2":@"iPhone 4",
-                                             @"iPhone3,3":@"iPhone 4",
-                                             @"iPhone4,1":@"iPhone 4s",
-                                             @"iPhone5,1":@"iPhone 5",
-                                             @"iPhone5,2":@"iPhone 5",
-                                             @"iPhone5,3":@"iPhone 5c",
-                                             @"iPhone5,4":@"iPhone 5c",
-                                             @"iPhone6,1":@"iPhone 5s",
-                                             @"iPhone6,2":@"iPhone 5s",
-                                             @"iPhone7,1":@"iPhone 6 Plus",
-                                             @"iPhone7,2":@"iPhone 6",
-                                             @"iPhone8,1":@"iPhone 6s",
-                                             @"iPhone8,2":@"iPhone 6s Plus",
-                                             //iPod Touch
-                                             @"iPod1,1":@"iPod touch",
-                                             @"iPod2,1":@"iPod touch 2G",
-                                             @"iPod3,1":@"iPod touch 3G",
-                                             @"iPod4,1":@"iPod touch 4G",
-                                             @"iPod5,1":@"iPod touch 5G",
-                                             @"iPod7,1":@"iPod touch 6G",
-                                             //iPad
-                                             @"iPad1,1":@"iPad",
-                                             @"iPad2,1":@"iPad 2",
-                                             @"iPad2,2":@"iPad 2",
-                                             @"iPad2,3":@"iPad 2",
-                                             @"iPad2,4":@"iPad 2",
-                                             @"iPad2,5":@"iPad mini 1G",
-                                             @"iPad2,6":@"iPad mini 1G",
-                                             @"iPad2,7":@"iPad mini 1G",
-                                             @"iPad3,1":@"iPad 3",
-                                             @"iPad3,2":@"iPad 3",
-                                             @"iPad3,3":@"iPad 3",
-                                             @"iPad3,4":@"iPad 4",
-                                             @"iPad3,5":@"iPad 4",
-                                             @"iPad3,6":@"iPad 4",
-                                             @"iPad4,1":@"iPad Air",
-                                             @"iPad4,2":@"iPad Air",
-                                             @"iPad4,3":@"iPad Air",
-                                             @"iPad4,4":@"iPad mini 2",
-                                             @"iPad4,5":@"iPad mini 2",
-                                             @"iPad4,6":@"iPad mini 2",
-                                             @"iPad4,7":@"iPad mini 3",
-                                             @"iPad4,8":@"iPad mini 3",
-                                             @"iPad4,9":@"iPad mini 3",
-                                             @"iPad5,1":@"iPad mini 4",
-                                             @"iPad5,2":@"iPad mini 4",
-                                             @"iPad5,3":@"iPad Air 2",
-                                             @"iPad5,4":@"iPad Air 2",
-                                             @"iPad6,7":@"iPad Pro",
-                                             @"iPad6,8":@"iPad Pro",
-                                             //iPhone Simulator
-                                             @"i386":@"iPhone Simulator",
-                                             @"x86_64":@"iPhone Simulator",
-                                             };
-    */
+    /*
+     NSDictionary * platformInfoDictionary =@{//https://www.theiphonewiki.com/wiki/Models
+     //iPhone
+     @"iPhone1,1":@"iPhone 1G",
+     @"iPhone1,2":@"iPhone 3G",
+     @"iPhone2,1":@"iPhone 3GS",
+     @"iPhone3,1":@"iPhone 4",
+     @"iPhone3,2":@"iPhone 4",
+     @"iPhone3,3":@"iPhone 4",
+     @"iPhone4,1":@"iPhone 4s",
+     @"iPhone5,1":@"iPhone 5",
+     @"iPhone5,2":@"iPhone 5",
+     @"iPhone5,3":@"iPhone 5c",
+     @"iPhone5,4":@"iPhone 5c",
+     @"iPhone6,1":@"iPhone 5s",
+     @"iPhone6,2":@"iPhone 5s",
+     @"iPhone7,1":@"iPhone 6 Plus",
+     @"iPhone7,2":@"iPhone 6",
+     @"iPhone8,1":@"iPhone 6s",
+     @"iPhone8,2":@"iPhone 6s Plus",
+     //iPod Touch
+     @"iPod1,1":@"iPod touch",
+     @"iPod2,1":@"iPod touch 2G",
+     @"iPod3,1":@"iPod touch 3G",
+     @"iPod4,1":@"iPod touch 4G",
+     @"iPod5,1":@"iPod touch 5G",
+     @"iPod7,1":@"iPod touch 6G",
+     //iPad
+     @"iPad1,1":@"iPad",
+     @"iPad2,1":@"iPad 2",
+     @"iPad2,2":@"iPad 2",
+     @"iPad2,3":@"iPad 2",
+     @"iPad2,4":@"iPad 2",
+     @"iPad2,5":@"iPad mini 1G",
+     @"iPad2,6":@"iPad mini 1G",
+     @"iPad2,7":@"iPad mini 1G",
+     @"iPad3,1":@"iPad 3",
+     @"iPad3,2":@"iPad 3",
+     @"iPad3,3":@"iPad 3",
+     @"iPad3,4":@"iPad 4",
+     @"iPad3,5":@"iPad 4",
+     @"iPad3,6":@"iPad 4",
+     @"iPad4,1":@"iPad Air",
+     @"iPad4,2":@"iPad Air",
+     @"iPad4,3":@"iPad Air",
+     @"iPad4,4":@"iPad mini 2",
+     @"iPad4,5":@"iPad mini 2",
+     @"iPad4,6":@"iPad mini 2",
+     @"iPad4,7":@"iPad mini 3",
+     @"iPad4,8":@"iPad mini 3",
+     @"iPad4,9":@"iPad mini 3",
+     @"iPad5,1":@"iPad mini 4",
+     @"iPad5,2":@"iPad mini 4",
+     @"iPad5,3":@"iPad Air 2",
+     @"iPad5,4":@"iPad Air 2",
+     @"iPad6,7":@"iPad Pro",
+     @"iPad6,8":@"iPad Pro",
+     //iPhone Simulator
+     @"i386":@"iPhone Simulator",
+     @"x86_64":@"iPhone Simulator",
+     };
+     */
     
     if([platformInfoDictionary objectForKey:platform]){
         return [platformInfoDictionary objectForKey:platform];
     }
     /*
-    if ([platform isEqualToString:@"iPhone1,1"])    return @"iPhone 1G";
-    if ([platform isEqualToString:@"iPhone1,2"])    return @"iPhone 3G";
-    if ([platform isEqualToString:@"iPhone2,1"])    return @"iPhone 3GS";
-    if ([platform isEqualToString:@"iPhone3,1"])    return @"iPhone 4";
-    if ([platform isEqualToString:@"iPhone4,1"])    return @"iPhone 4S";
-    if ([platform isEqualToString:@"iPhone5,1"])    return @"iPhone 5";
-    
-    if ([platform isEqualToString:@"iPod1,1"])      return @"iPod Touch";
-    if ([platform isEqualToString:@"iPod2,1"])      return @"iPod Touch Second Generation";
-    if ([platform isEqualToString:@"iPod3,1"])      return @"iPod Touch Third Generation";
-    if ([platform isEqualToString:@"iPod4,1"])      return @"iPod Touch Fourth Generation";
-    if ([platform isEqualToString:@"iPod5,1"])      return @"iPod Touch Fifth Generation";
-    
-    if ([platform isEqualToString:@"iPad1,1"])      return @"iPad";
-    if ([platform isEqualToString:@"iPad2,1"])      return @"iPad 2";
-    if ([platform isEqualToString:@"iPad3,1"])      return @"3rd Generation iPad";
-    if ([platform isEqualToString:@"iPad3,4"])      return @"4th Generation iPad";
-    if ([platform isEqualToString:@"iPad2,5"])      return @"iPad Mini";
-    
-    if ([platform isEqualToString:@"i386"] || [platform isEqualToString:@"x86_64"])         return @"iPhone Simulator";
-    */
+     if ([platform isEqualToString:@"iPhone1,1"])    return @"iPhone 1G";
+     if ([platform isEqualToString:@"iPhone1,2"])    return @"iPhone 3G";
+     if ([platform isEqualToString:@"iPhone2,1"])    return @"iPhone 3GS";
+     if ([platform isEqualToString:@"iPhone3,1"])    return @"iPhone 4";
+     if ([platform isEqualToString:@"iPhone4,1"])    return @"iPhone 4S";
+     if ([platform isEqualToString:@"iPhone5,1"])    return @"iPhone 5";
+     
+     if ([platform isEqualToString:@"iPod1,1"])      return @"iPod Touch";
+     if ([platform isEqualToString:@"iPod2,1"])      return @"iPod Touch Second Generation";
+     if ([platform isEqualToString:@"iPod3,1"])      return @"iPod Touch Third Generation";
+     if ([platform isEqualToString:@"iPod4,1"])      return @"iPod Touch Fourth Generation";
+     if ([platform isEqualToString:@"iPod5,1"])      return @"iPod Touch Fifth Generation";
+     
+     if ([platform isEqualToString:@"iPad1,1"])      return @"iPad";
+     if ([platform isEqualToString:@"iPad2,1"])      return @"iPad 2";
+     if ([platform isEqualToString:@"iPad3,1"])      return @"3rd Generation iPad";
+     if ([platform isEqualToString:@"iPad3,4"])      return @"4th Generation iPad";
+     if ([platform isEqualToString:@"iPad2,5"])      return @"iPad Mini";
+     
+     if ([platform isEqualToString:@"i386"] || [platform isEqualToString:@"x86_64"])         return @"iPhone Simulator";
+     */
     return platform;
 }
 
@@ -613,7 +613,7 @@ typedef enum {
 #pragma mark -
 #pragma mark - Vibrate
 
--(void)stopVibrate{
+- (void)stopVibrate{
     //AudioServicesRemoveSystemSoundCompletion(kSystemSoundID_Vibrate);
     if (vibrateTimer) {
         [vibrateTimer invalidate];
@@ -625,12 +625,12 @@ typedef enum {
     }
 }
 
--(void)playVibrate:(NSTimer *)timer{
+- (void)playVibrate:(NSTimer *)timer{
     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
     //float vibrateTime = [(NSString *)[timer userInfo] floatValue];
 }
 
--(void)vibrate:(NSMutableArray *)inArguments {
+- (void)vibrate:(NSMutableArray *)inArguments {
     PluginLog(@"[EUExDevice vibrate]");
     NSString *inMilliseconds = [inArguments objectAtIndex:0];
     if (vibrateTimer) {
@@ -645,12 +645,12 @@ typedef enum {
     times = [NSTimer scheduledTimerWithTimeInterval:vibrateTime target:self selector:@selector(stopVibrate) userInfo:nil repeats:NO];
 }
 
--(void)vibrateWithPattern:(NSArray*)inPattern repeat:(int)inRepeat{
+- (void)vibrateWithPattern:(NSArray*)inPattern repeat:(int)inRepeat{
     PluginLog(@"[EUExDevice vibrateWithPattern]");
 }
 
 //取消震动
--(void)cancelVibrate:(NSMutableArray *)inArguments {
+- (void)cancelVibrate:(NSMutableArray *)inArguments {
     PluginLog(@"[EUExDevice cancelVibrate]");
     if (vibrateTimer) {
         [vibrateTimer invalidate];
@@ -665,7 +665,7 @@ typedef enum {
 #pragma mark -
 #pragma mark - Screen Capture
 
--(void)screenCapture:(NSMutableArray *)inArguments{
+- (void)screenCapture:(NSMutableArray *)inArguments{
     if(inArguments.count < 1){
         return;
     }
@@ -686,7 +686,7 @@ typedef enum {
     }
 }
 //callback
--(void) cbSavePath:(NSString*)savePath{
+- (void) cbSavePath:(NSString*)savePath{
     NSMutableDictionary *path=[NSMutableDictionary dictionary];
     [path setValue:savePath forKey:@"savePath"];
     NSString *result=[path JSONFragment];
@@ -731,7 +731,7 @@ typedef enum {
 #pragma mark -
 #pragma mark - Volume
 
--(void)setVolume:(NSMutableArray *)inArguments{
+- (void)setVolume:(NSMutableArray *)inArguments{
     if(inArguments.count<1){
         return;
     }
@@ -771,17 +771,17 @@ typedef enum {
 #pragma mark -
 #pragma mark - Audio Category
 
--(void)setAudioCategory:(NSMutableArray *)inArguments{
+- (void)setAudioCategory:(NSMutableArray *)inArguments{
     if(inArguments.count<1){
         return;
     }
     int audioType=[inArguments[0] intValue];
-//    UInt32 doChangeDefaultRoute = kAudioSessionOverrideAudioRoute_None;
-//    AudioSessionSetProperty (
-//                             kAudioSessionProperty_OverrideCategoryDefaultToSpeaker,
-//                             sizeof (doChangeDefaultRoute),
-//                             &doChangeDefaultRoute
-//                             );
+    //    UInt32 doChangeDefaultRoute = kAudioSessionOverrideAudioRoute_None;
+    //    AudioSessionSetProperty (
+    //                             kAudioSessionProperty_OverrideCategoryDefaultToSpeaker,
+    //                             sizeof (doChangeDefaultRoute),
+    //                             &doChangeDefaultRoute
+    //                             );
     
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
     //NSLog(@"category---->%@",[audioSession category]);
@@ -798,7 +798,7 @@ typedef enum {
 #pragma mark -
 #pragma mark - set Screen Always Bright
 
--(void)setScreenAlwaysBright:(NSMutableArray *)inArguments{
+- (void)setScreenAlwaysBright:(NSMutableArray *)inArguments{
     if(inArguments.count<1){
         return;
     }
@@ -814,7 +814,7 @@ typedef enum {
 #pragma mark -
 #pragma mark - Screen Brightness
 
--(void)setScreenBrightness:(NSMutableArray *)inArguments{
+- (void)setScreenBrightness:(NSMutableArray *)inArguments{
     if(inArguments.count<1){
         return;
     }
@@ -827,7 +827,7 @@ typedef enum {
     }
     
 }
--(NSNumber *)getScreenBrightness:(NSMutableArray *)inArguments{
+- (NSNumber *)getScreenBrightness:(NSMutableArray *)inArguments{
     CGFloat brightness=[[UIScreen mainScreen] brightness];
     NSMutableDictionary *brightnessVal=[NSMutableDictionary dictionary];
     [brightnessVal setValue:@(brightness) forKey:@"brightness"];
@@ -840,11 +840,15 @@ typedef enum {
 #pragma mark -
 #pragma mark - WIFI
 
--(void)openWiFiInterface:(NSMutableArray *)inArguments{
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=WIFI"]];
+- (void)openWiFiInterface:(NSMutableArray *)inArguments{
+    if ([UIDevice currentDevice].systemVersion.floatValue < 8.0){
+        return;
+    }
+    [[UIApplication sharedApplication]openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
 }
+
 #pragma mark - setting
--(void)isFunctionEnable:(NSMutableArray *)inArguments{
+- (void)isFunctionEnable:(NSMutableArray *)inArguments{
     if(inArguments.count<1){
         return;
     }
@@ -864,11 +868,11 @@ typedef enum {
         self.CBManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
         return;
     }
-//    else if([setting isEqualToString:@"NETWORK"]){
-//        NSString *net=[self getConnectStatus];
-//        BOOL status=[Reachability_Device isNetWorkReachable];
-//        NSLog(@"-----------%@",net);
-//    }
+    //    else if([setting isEqualToString:@"NETWORK"]){
+    //        NSString *net=[self getConnectStatus];
+    //        BOOL status=[Reachability_Device isNetWorkReachable];
+    //        NSLog(@"-----------%@",net);
+    //    }
     else{
         [result setValue:@(NO) forKey:@"isEnable"];
     }
@@ -888,43 +892,58 @@ typedef enum {
     [EUtility brwView:meBrwView evaluateScript:cbStr];
     self.CBManager = nil;
 }
--(void)openSetting:(NSMutableArray *)inArguments{
-    NSString *setting = @"";
-    id info=[inArguments[0] JSONValue];
-    if (info && [info isKindOfClass:[NSDictionary class]] && [info[@"setting"] isKindOfClass:[NSString class]]) {
-        setting = info[@"setting"];
-    }
+- (void)openSetting:(NSMutableArray *)inArguments{
+    
     NSMutableDictionary *result=[NSMutableDictionary dictionary];
-    [result setValue:setting forKey:@"setting"];
-    BOOL isSuccess = NO;
+    if (inArguments.count > 0) {
+        NSString *setting = @"";
+        id info=[inArguments[0] JSONValue];
+        if (info && [info isKindOfClass:[NSDictionary class]] && [info[@"setting"] isKindOfClass:[NSString class]]) {
+            setting = info[@"setting"];
+        }
+        
+        [result setValue:setting forKey:@"setting"];
+    }
+    void (^callback)(BOOL isSuccess) = ^(BOOL isSuccess){
+        [result setValue:isSuccess?@0:@1 forKey:@"errorCode"];
+        NSString *cbStr=[NSString stringWithFormat:@"if(uexDevice.cbOpenSetting != null){uexDevice.cbOpenSetting(%@);}",result.JSONFragment.JSONFragment];
+        [EUtility brwView:meBrwView evaluateScript:cbStr];
+    };
     
-    //定位设置
-    if([setting isEqual:@"GPS"]){
-        isSuccess = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=LOCATION_SERVICES"]];
-
+    // UIApplicationOpenSettingsURLString 只支持8.0+系统
+    if ([UIDevice currentDevice].systemVersion.floatValue < 8.0){
+        callback(NO);
+        return;
     }
-    //蓝牙设置
-    if ([setting isEqual:@"BLUETOOTH"]){
-        isSuccess = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=Bluetooth"]];
-
-    }
-    //推送设置
-    if ([setting isEqual:@"NOTIFICATION"]){
-        isSuccess = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=NOTIFICATIONS_ID"]];
-    }
-    if(!setting || setting.length == 0){
-//        isSuccess = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-        isSuccess = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root"]];
-    }
-    //网络设置
-//    else if([setting isEqualToString:@"NETWORK"]){
-//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=Network"]];
-//        [result setValue:@(0) forKey:@"errorCode"];
-//    }
     
-    [result setValue:isSuccess?@0:@1 forKey:@"errorCode"];
-    NSString *cbStr=[NSString stringWithFormat:@"if(uexDevice.cbOpenSetting != null){uexDevice.cbOpenSetting('%@');}",[result JSONFragment]];
-    [EUtility brwView:meBrwView evaluateScript:cbStr];
+    
+    BOOL isSuccess = [[UIApplication sharedApplication]openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+    callback(isSuccess);
+    
+    
+    
+    // 最新design guildline表示 以下URL属于私有API,可能导致上架被拒,因此只能使用UIApplicationOpenSettingsURLString
+    
+    //    //定位设置
+    //    if([setting isEqual:@"GPS"]){
+    //        isSuccess = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=LOCATION_SERVICES"]];
+    //
+    //    }
+    //    //蓝牙设置
+    //    if ([setting isEqual:@"BLUETOOTH"]){
+    //        isSuccess = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=Bluetooth"]];
+    //
+    //    }
+    //    //推送设置
+    //    if ([setting isEqual:@"NOTIFICATION"]){
+    //        isSuccess = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=NOTIFICATIONS_ID"]];
+    //    }
+    //    //网络设置
+    //    else if([setting isEqualToString:@"NETWORK"]){
+    //        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=Network"]];
+    //        [result setValue:@(0) forKey:@"errorCode"];
+    //    }
+    
 }
 @end
 
