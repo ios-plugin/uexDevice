@@ -36,13 +36,6 @@
 		5A500F40188FB1F90022E07C /* EUExBaseDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EUExBaseDefine.h; sourceTree = "<group>"; };
 		5A500F41188FB1F90022E07C /* EUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EUtility.h; sourceTree = "<group>"; };
 		5A500F43188FB1F90022E07C /* AppCanAnalysis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppCanAnalysis.h; sourceTree = "<group>"; };
-		5A500F45188FB1F90022E07C /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
-		5A500F46188FB1F90022E07C /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
-		5A500F47188FB1F90022E07C /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SBJSON.h"; sourceTree = "<group>"; };
-		5A500F48188FB1F90022E07C /* SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJSON.h; sourceTree = "<group>"; };
-		5A500F49188FB1F90022E07C /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
-		5A500F4A188FB1F90022E07C /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
-		5A500F4B188FB1F90022E07C /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		5A60A96D18AB676100C727A6 /* EUExDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EUExDevice.h; sourceTree = "<group>"; };
 		76649F461CA27F8600B5691A /* uexDevice.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = uexDevice.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		76649F4E1CA2814500B5691A /* DeviceVersion.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DeviceVersion.plist; sourceTree = "<group>"; };
@@ -135,23 +128,8 @@
 				A036158218E2BA2200800C19 /* Reachability_Device.h */,
 				A036158318E2BA2200800C19 /* Reachability_Device.m */,
 				5A500F43188FB1F90022E07C /* AppCanAnalysis.h */,
-				5A500F44188FB1F90022E07C /* JSON */,
 			);
 			path = sourceCode;
-			sourceTree = "<group>";
-		};
-		5A500F44188FB1F90022E07C /* JSON */ = {
-			isa = PBXGroup;
-			children = (
-				5A500F45188FB1F90022E07C /* JSON.h */,
-				5A500F46188FB1F90022E07C /* NSObject+SBJSON.h */,
-				5A500F47188FB1F90022E07C /* NSString+SBJSON.h */,
-				5A500F48188FB1F90022E07C /* SBJSON.h */,
-				5A500F49188FB1F90022E07C /* SBJsonBase.h */,
-				5A500F4A188FB1F90022E07C /* SBJsonParser.h */,
-				5A500F4B188FB1F90022E07C /* SBJsonWriter.h */,
-			);
-			path = JSON;
 			sourceTree = "<group>";
 		};
 		76649F471CA27F8600B5691A /* uexDeviceBundle */ = {

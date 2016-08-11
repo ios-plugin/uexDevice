@@ -11,7 +11,6 @@
 #import "EUtility.h"
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import <CoreTelephony/CTCarrier.h>
-#import "JSON.h"
 #import "Reachability_Device.h"
 #import <sys/mount.h>
 #import <sys/param.h>
@@ -668,6 +667,7 @@ typedef enum {
     if(inArguments.count < 1){
         return;
     }
+    NSNumber *state = @1;
     CGFloat quality=[info floatValue];
     if(quality <=1&& quality>=0){
         UIWindow *screenWindow = [[UIApplication sharedApplication] keyWindow];
@@ -676,20 +676,27 @@ typedef enum {
         UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         NSString *savePath=[self saveImage:viewImage quality:quality];
-        [self cbSavePath:savePath FunctionRef:func];
+        if (savePath) {
+            state = @0;
+            [self cbSavePath:savePath FunctionRef:func State:state];
+        }else{
+            [func executeWithArguments:ACArgsPack(state,@{@"savePath":@""})];
+        }
+        
         //保存到系统相册
         //UIImageWriteToSavedPhotosAlbum(viewImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
     }
     else{
+        [func executeWithArguments:ACArgsPack(state,@{@"savePath":@""})];
         return;
     }
 }
 //callback
-- (void)cbSavePath:(NSString*)savePath FunctionRef:(ACJSFunctionRef*)func{
+- (void)cbSavePath:(NSString*)savePath FunctionRef:(ACJSFunctionRef*)func State:(NSNumber*)state{
     NSMutableDictionary *path=[NSMutableDictionary dictionary];
     [path setValue:savePath forKey:@"savePath"];
     [self callBackJsonWithFunction:@"cbScreenCapture" dicParameter:path];
-    [func executeWithArguments:ACArgsPack(path)];
+    [func executeWithArguments:ACArgsPack(state,@{@"savePath":savePath})];
 }
 
 - (NSString *)getSaveDirPath{
@@ -847,12 +854,15 @@ typedef enum {
     NSString *setting=[info objectForKey:@"setting"];
     NSMutableDictionary *result=[NSMutableDictionary dictionary];
     [result setValue:setting forKey:@"setting"];
+    NSNumber *state = @1;
     if([setting isEqualToString:@"GPS"]){
         if ([CLLocationManager locationServicesEnabled]){
             [result setValue:@(YES) forKey:@"isEnable"];
+            state = @0;
         }
         else{
             [result setValue:@(NO) forKey:@"isEnable"];
+            state = @1;
         }
     }
     else if([setting isEqualToString:@"BLUETOOTH"]){
@@ -861,35 +871,41 @@ typedef enum {
         return;
     }
     else{
+        state = @1;
         [result setValue:@(NO) forKey:@"isEnable"];
     }
     [self callBackJsonWithFunction:@"cbIsFunctionEnable" dicParameter:result];
-    [func executeWithArguments:ACArgsPack(result)];
+    [func executeWithArguments:ACArgsPack(state)];
 }
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central{
     NSMutableDictionary *result=[NSMutableDictionary dictionary];
     [result setValue:@"BLUETOOTH" forKey:@"setting"];
+    NSNumber *state = @1;
     if(central.state==5){
         [result setValue:@(YES) forKey:@"isEnable"];
+        state = @0;
     }
     else{
         [result setValue:@(NO) forKey:@"isEnable"];
+        state = @1;
     }
     [self callBackJsonWithFunction:@"cbIsFunctionEnable" dicParameter:result];
-    [self.funRef executeWithArguments:ACArgsPack(result)];
+    [self.funRef executeWithArguments:ACArgsPack(state)];
     self.CBManager = nil;
     self.funRef = nil;
 }
 - (void)openSetting:(NSMutableArray *)inArguments{
     
     __block NSMutableDictionary *result=[NSMutableDictionary dictionary];
-    ACArgsUnpack(NSDictionary*info,ACJSFunctionRef *func) = inArguments;
+    ACArgsUnpack(NSDictionary*info) = inArguments;
+    ACJSFunctionRef *func = JSFunctionArg(inArguments.lastObject);
     NSString *setting = stringArg(info[@"setting"])?:@"";
     [result setValue:setting forKey:@"setting"];
     void (^callback)(BOOL isSuccess) = ^(BOOL isSuccess){
-        [result setValue:isSuccess?@0:@1 forKey:@"errorCode"];
+        NSNumber *state = isSuccess?@0:@1;
+        [result setValue:state forKey:@"errorCode"];
         [self callBackJsonWithFunction:@"cbOpenSetting" dicParameter:result];
-        [func executeWithArguments:ACArgsPack(result)];
+        [func executeWithArguments:ACArgsPack(state,@{@"setting":setting})];
     };
     
     // UIApplicationOpenSettingsURLString 只支持8.0+系统
