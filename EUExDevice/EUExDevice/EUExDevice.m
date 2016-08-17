@@ -936,7 +936,7 @@ typedef enum {
     void (^callback)(BOOL isSuccess) = ^(BOOL isSuccess){
         NSNumber *state = isSuccess?@0:@1;
         [result setValue:state forKey:@"errorCode"];
-        //[self callBackJsonWithFunction:@"cbOpenSetting" dicParameter:result];
+        [self callBackJsonWithFunction:@"cbOpenSetting" dicParameter:result];
         //[func executeWithArguments:ACArgsPack(state,@{@"setting":setting})];
     };
     
