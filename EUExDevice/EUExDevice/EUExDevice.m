@@ -854,24 +854,56 @@ typedef enum {
     NSString *setting=[info objectForKey:@"setting"];
     NSMutableDictionary *result=[NSMutableDictionary dictionary];
     [result setValue:setting forKey:@"setting"];
-    NSNumber *state = @1;
+    __block NSNumber *state = @(NO);
     if([setting isEqualToString:@"GPS"]){
         if ([CLLocationManager locationServicesEnabled]){
             [result setValue:@(YES) forKey:@"isEnable"];
-            state = @0;
+            state = @(YES);
         }
         else{
             [result setValue:@(NO) forKey:@"isEnable"];
-            state = @1;
+            state = @(NO);
         }
     }
     else if([setting isEqualToString:@"BLUETOOTH"]){
         self.funRef = func;
         self.CBManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
         return;
-    }
-    else{
-        state = @1;
+    }else if([setting isEqualToString:@"CAMERA"]){
+        NSString *mediaType = AVMediaTypeVideo;
+         AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];
+        NSLog(@"authStatus:%ld",authStatus);
+        switch (authStatus) {
+            case AVAuthorizationStatusNotDetermined:{
+                // 许可对话没有出现，发起授权许可
+                [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+                    if (granted) {
+                        //第一次用户接受
+                        state = @(YES);
+                    }else{
+                        //用户拒绝
+                        state = @(NO);
+                    }
+                }];
+                break;
+            }
+            case AVAuthorizationStatusAuthorized:{
+                // 已经开启授权，可继续
+                 state = @(YES);
+                
+                break;
+            }
+            case AVAuthorizationStatusDenied:
+            case AVAuthorizationStatusRestricted:
+                // 用户明确地拒绝授权，或者相机设备无法访问
+                state = @(NO);
+                break;
+            default:
+                break;
+        }
+        
+    }else{
+        state = @(NO);
         [result setValue:@(NO) forKey:@"isEnable"];
     }
     [self callBackJsonWithFunction:@"cbIsFunctionEnable" dicParameter:result];
@@ -880,14 +912,14 @@ typedef enum {
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central{
     NSMutableDictionary *result=[NSMutableDictionary dictionary];
     [result setValue:@"BLUETOOTH" forKey:@"setting"];
-    NSNumber *state = @1;
+    NSNumber *state = @(NO);
     if(central.state==5){
         [result setValue:@(YES) forKey:@"isEnable"];
-        state = @0;
+        state = @(YES);
     }
     else{
         [result setValue:@(NO) forKey:@"isEnable"];
-        state = @1;
+        state = @(NO);
     }
     [self callBackJsonWithFunction:@"cbIsFunctionEnable" dicParameter:result];
     [self.funRef executeWithArguments:ACArgsPack(state)];
@@ -898,14 +930,14 @@ typedef enum {
     
     __block NSMutableDictionary *result=[NSMutableDictionary dictionary];
     ACArgsUnpack(NSDictionary*info) = inArguments;
-    ACJSFunctionRef *func = JSFunctionArg(inArguments.lastObject);
+    //ACJSFunctionRef *func = JSFunctionArg(inArguments.lastObject);
     NSString *setting = stringArg(info[@"setting"])?:@"";
     [result setValue:setting forKey:@"setting"];
     void (^callback)(BOOL isSuccess) = ^(BOOL isSuccess){
         NSNumber *state = isSuccess?@0:@1;
         [result setValue:state forKey:@"errorCode"];
-        [self callBackJsonWithFunction:@"cbOpenSetting" dicParameter:result];
-        [func executeWithArguments:ACArgsPack(state,@{@"setting":setting})];
+        //[self callBackJsonWithFunction:@"cbOpenSetting" dicParameter:result];
+        //[func executeWithArguments:ACArgsPack(state,@{@"setting":setting})];
     };
     
     // UIApplicationOpenSettingsURLString 只支持8.0+系统
