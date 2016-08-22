@@ -629,14 +629,14 @@ typedef enum {
 
 - (void)vibrate:(NSMutableArray *)inArguments {
     PluginLog(@"[EUExDevice vibrate]");
-    NSString *inMilliseconds = [inArguments objectAtIndex:0];
+    ACArgsUnpack(NSNumber*inMilliseconds) = inArguments;
     if (vibrateTimer) {
         return;
     }
     if (times) {
         return;
     }
-    inMilliseconds = [inMilliseconds stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    //inMilliseconds = [inMilliseconds stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     vibrateTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(playVibrate:) userInfo:inMilliseconds repeats:YES];
     float vibrateTime = [inMilliseconds floatValue]/1000.0;
     times = [NSTimer scheduledTimerWithTimeInterval:vibrateTime target:self selector:@selector(stopVibrate) userInfo:nil repeats:NO];
