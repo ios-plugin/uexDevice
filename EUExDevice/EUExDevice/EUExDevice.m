@@ -18,15 +18,15 @@
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import <CoreLocation/CoreLocation.h>
-#import <CoreBluetooth/CoreBluetooth.h>
+//#import <CoreBluetooth/CoreBluetooth.h>
 #import <CFNetwork/CFNetwork.h>
 #import "Reachability_Device.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 
 #include <sys/sysctl.h>
-@interface EUExDevice()<CBCentralManagerDelegate>
-@property (nonatomic,strong)CBCentralManager *CBManager;
-@property(nonatomic,strong)ACJSFunctionRef *funRef;
+@interface EUExDevice()
+
+
 @end
 
 @implementation EUExDevice
@@ -430,28 +430,6 @@ typedef enum {
     if([platformInfoDictionary objectForKey:platform]){
         return [platformInfoDictionary objectForKey:platform];
     }
-    /*
-    if ([platform isEqualToString:@"iPhone1,1"])    return @"iPhone 1G";
-    if ([platform isEqualToString:@"iPhone1,2"])    return @"iPhone 3G";
-    if ([platform isEqualToString:@"iPhone2,1"])    return @"iPhone 3GS";
-    if ([platform isEqualToString:@"iPhone3,1"])    return @"iPhone 4";
-    if ([platform isEqualToString:@"iPhone4,1"])    return @"iPhone 4S";
-    if ([platform isEqualToString:@"iPhone5,1"])    return @"iPhone 5";
-    
-    if ([platform isEqualToString:@"iPod1,1"])      return @"iPod Touch";
-    if ([platform isEqualToString:@"iPod2,1"])      return @"iPod Touch Second Generation";
-    if ([platform isEqualToString:@"iPod3,1"])      return @"iPod Touch Third Generation";
-    if ([platform isEqualToString:@"iPod4,1"])      return @"iPod Touch Fourth Generation";
-    if ([platform isEqualToString:@"iPod5,1"])      return @"iPod Touch Fifth Generation";
-    
-    if ([platform isEqualToString:@"iPad1,1"])      return @"iPad";
-    if ([platform isEqualToString:@"iPad2,1"])      return @"iPad 2";
-    if ([platform isEqualToString:@"iPad3,1"])      return @"3rd Generation iPad";
-    if ([platform isEqualToString:@"iPad3,4"])      return @"4th Generation iPad";
-    if ([platform isEqualToString:@"iPad2,5"])      return @"iPad Mini";
-    
-    if ([platform isEqualToString:@"i386"] || [platform isEqualToString:@"x86_64"])         return @"iPhone Simulator";
-    */
     return platform;
 }
 
@@ -848,11 +826,11 @@ typedef enum {
 #pragma mark - setting
 - (void)isFunctionEnable:(NSMutableArray *)inArguments{
      ACArgsUnpack(NSDictionary*info,ACJSFunctionRef *func) = inArguments;
-    if(inArguments.count<1){
+    if(!info){
         return;
     }
-    NSString *setting=[info objectForKey:@"setting"];
-    NSMutableDictionary *result=[NSMutableDictionary dictionary];
+    NSString *setting = stringArg(info[@"setting"]);
+    NSMutableDictionary *result = [NSMutableDictionary dictionary];
     [result setValue:setting forKey:@"setting"];
     __block NSNumber *state = @(NO);
     if([setting isEqualToString:@"GPS"]){
@@ -865,11 +843,7 @@ typedef enum {
             state = @(NO);
         }
     }
-    else if([setting isEqualToString:@"BLUETOOTH"]){
-        self.funRef = func;
-        self.CBManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
-        return;
-    }else if([setting isEqualToString:@"CAMERA"]){
+    else if([setting isEqualToString:@"CAMERA"]){
         NSString *mediaType = AVMediaTypeVideo;
          AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];
         NSLog(@"authStatus:%ld",authStatus);
@@ -909,23 +883,7 @@ typedef enum {
     [self callBackJsonWithFunction:@"cbIsFunctionEnable" dicParameter:result];
     [func executeWithArguments:ACArgsPack(state)];
 }
-- (void)centralManagerDidUpdateState:(CBCentralManager *)central{
-    NSMutableDictionary *result=[NSMutableDictionary dictionary];
-    [result setValue:@"BLUETOOTH" forKey:@"setting"];
-    NSNumber *state = @(NO);
-    if(central.state==5){
-        [result setValue:@(YES) forKey:@"isEnable"];
-        state = @(YES);
-    }
-    else{
-        [result setValue:@(NO) forKey:@"isEnable"];
-        state = @(NO);
-    }
-    [self callBackJsonWithFunction:@"cbIsFunctionEnable" dicParameter:result];
-    [self.funRef executeWithArguments:ACArgsPack(state)];
-    self.CBManager = nil;
-    self.funRef = nil;
-}
+
 - (void)openSetting:(NSMutableArray *)inArguments{
     
     __block NSMutableDictionary *result=[NSMutableDictionary dictionary];
