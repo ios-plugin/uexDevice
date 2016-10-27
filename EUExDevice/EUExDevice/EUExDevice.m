@@ -19,14 +19,13 @@
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import <CoreLocation/CoreLocation.h>
-#import <CoreBluetooth/CoreBluetooth.h>
+
 #import <CFNetwork/CFNetwork.h>
 #import "Reachability_Device.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 
 #include <sys/sysctl.h>
-@interface EUExDevice()<CBCentralManagerDelegate>
-@property (nonatomic,strong)CBCentralManager *CBManager;
+@interface EUExDevice()
 @end
 
 @implementation EUExDevice
@@ -864,10 +863,7 @@ typedef enum {
             [result setValue:@(NO) forKey:@"isEnable"];
         }
     }
-    else if([setting isEqualToString:@"BLUETOOTH"]){
-        self.CBManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
-        return;
-    }
+
     //    else if([setting isEqualToString:@"NETWORK"]){
     //        NSString *net=[self getConnectStatus];
     //        BOOL status=[Reachability_Device isNetWorkReachable];
@@ -879,19 +875,7 @@ typedef enum {
     NSString *cbStr=[NSString stringWithFormat:@"if(uexDevice.cbIsFunctionEnable != null){uexDevice.cbIsFunctionEnable('%@');}",[result JSONFragment]];
     [EUtility brwView:meBrwView evaluateScript:cbStr];
 }
-- (void)centralManagerDidUpdateState:(CBCentralManager *)central{
-    NSMutableDictionary *result=[NSMutableDictionary dictionary];
-    [result setValue:@"BLUETOOTH" forKey:@"setting"];
-    if(central.state==5){
-        [result setValue:@(YES) forKey:@"isEnable"];
-    }
-    else{
-        [result setValue:@(NO) forKey:@"isEnable"];
-    }
-    NSString *cbStr=[NSString stringWithFormat:@"if(uexDevice.cbIsFunctionEnable != null){uexDevice.cbIsFunctionEnable('%@');}",[result JSONFragment]];
-    [EUtility brwView:meBrwView evaluateScript:cbStr];
-    self.CBManager = nil;
-}
+
 - (void)openSetting:(NSMutableArray *)inArguments{
     
     NSMutableDictionary *result=[NSMutableDictionary dictionary];

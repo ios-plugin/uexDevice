@@ -6,15 +6,15 @@
 	<dict>
 		<key>Info.plist</key>
 		<data>
-		rbH6O/dVskLGgMH2Djp6OZ95mao=
+		RACVBjcX+v9yy9u8k9GTGAW/yBM=
 		</data>
 		<key>embedded.mobileprovision</key>
 		<data>
-		JKbXoT98W7zj86Z2W3qbeHZe/kE=
+		VccYRc8+LJpEK2ajGtgIir/pOpk=
 		</data>
 		<key>uexDevice.bundle/DeviceVersion.plist</key>
 		<data>
-		nGzyF4DdiIRsJjMmLocxiM988gE=
+		wON8xOK7f4xAgQnYiuGVCnDVHf0=
 		</data>
 		<key>uexDevice.bundle/en.lproj/Localizable.strings</key>
 		<dict>
@@ -41,22 +41,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			JKbXoT98W7zj86Z2W3qbeHZe/kE=
+			VccYRc8+LJpEK2ajGtgIir/pOpk=
 			</data>
 			<key>hash2</key>
 			<data>
-			0p8akoZIUNhnEHSrm+cwtP59I1VEbMUe0Gn2IpgCK98=
+			ejCBtnGtWqhlrYI4GRjoMJxaexgdSnhjWGPR+Vc9frw=
 			</data>
 		</dict>
 		<key>uexDevice.bundle/DeviceVersion.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			nGzyF4DdiIRsJjMmLocxiM988gE=
+			wON8xOK7f4xAgQnYiuGVCnDVHf0=
 			</data>
 			<key>hash2</key>
 			<data>
-			ZJUTW9ZjX0/Xp3tIOe3VK179Ylk+Na+YPLtrXyO3XZ0=
+			CW0ZuC7YD3elyAUy0BKANZmH8ga3JCtcVCVJmQe4498=
 			</data>
 		</dict>
 		<key>uexDevice.bundle/en.lproj/Localizable.strings</key>
@@ -104,6 +104,11 @@
 			<key>weight</key>
 			<real>1100</real>
 		</dict>
+		<key>^Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
+		</dict>
 		<key>^version.plist$</key>
 		<true/>
 	</dict>
@@ -148,6 +153,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^Info\.plist$</key>
 		<dict>

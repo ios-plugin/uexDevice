@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <uexplugins>
-  <plugin uexName="uexDevice" version="3.0.12" build="12">
-    <info>12: IDE证书更新</info>
+  <plugin uexName="uexDevice" version="3.0.13" build="13">
+    <info>13: 移除蓝牙检测功能;设备列表添加iPhone7及iPhone7P</info>
+    <build>12: IDE证书更新</build>
     <build>11: 解决上架隐患</build>
     <build>10: openSetting接口支持ios7.0+</build>
     <build>9: 修改获取设备型号的方式，添加设备型号</build>
