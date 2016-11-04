@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <uexplugins>
-  <plugin uexName="uexDevice" version="3.0.13" build="13">
-    <info>13: 移除蓝牙检测功能;设备列表添加iPhone7及iPhone7P</info>
+  <plugin uexName="uexDevice" version="3.0.16" build="16">
+    <info>16: 修改uexDevice.onNetStatusChanged返回参数</info>
+    <build>15: plugin.xml文件配置startNetStatusListener和stopsNetStatusListener方法</build>
+    <build>14: 增加uexDevice.onNetStatusChanged网络监听</build>
+    <build>13: 移除蓝牙检测功能;设备列表添加iPhone7及iPhone7P</build>
     <build>12: IDE证书更新</build>
     <build>11: 解决上架隐患</build>
     <build>10: openSetting接口支持ios7.0+</build>

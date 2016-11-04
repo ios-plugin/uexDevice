@@ -26,6 +26,9 @@
 
 #include <sys/sysctl.h>
 @interface EUExDevice()
+
+@property (nonatomic, strong) Reachability_Device * netState;
+
 @end
 
 @implementation EUExDevice
@@ -929,5 +932,36 @@ typedef enum {
     //    }
     
 }
+
+/**
+ * 开启网络状况的监听
+ * onNetStatusChanged
+ */
+- (void)startNetStatusListener:(NSMutableArray *)inArguments {
+   
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(onNetStatusChanged:)
+                                                 name: kReachabilityChangedNotification
+                                               object: nil];
+    
+    self.netState = [Reachability_Device reachabilityForInternetConnection];
+    [self.netState startNotifier];
+}
+
+- (void)onNetStatusChanged:(NSNotification *)notification {
+    
+    NSString *netStatus = [self getConnectStatus];
+ 
+    NSString *jsSuccessStr = [NSString stringWithFormat:@"if(uexDevice.onNetStatusChanged!=null){uexDevice.onNetStatusChanged(%@);}",netStatus];
+    [EUtility brwView:self.meBrwView evaluateScript:jsSuccessStr];
+}
+
+- (void)stopsNetStatusListener:(NSMutableArray *)inArguments {
+    
+    //关闭网络状况的监听
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
+    
+}
+
 @end
 

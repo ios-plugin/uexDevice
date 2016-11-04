@@ -13,5 +13,7 @@
         <method name="getScreenBrightness" sync="true"></method>
         <method name="isFunctionEnable"></method>
         <method name="openSetting"></method>
+        <method name="startNetStatusListener"></method>
+        <method name="stopsNetStatusListener"></method>
     </plugin>
 </uexplugins>
