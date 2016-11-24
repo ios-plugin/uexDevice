@@ -6,11 +6,7 @@
 	<dict>
 		<key>Info.plist</key>
 		<data>
-		RACVBjcX+v9yy9u8k9GTGAW/yBM=
-		</data>
-		<key>embedded.mobileprovision</key>
-		<data>
-		VccYRc8+LJpEK2ajGtgIir/pOpk=
+		issJb2WMXinV3ILSc+V2ltnZtHQ=
 		</data>
 		<key>uexDevice.bundle/DeviceVersion.plist</key>
 		<data>
@@ -37,17 +33,6 @@
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>embedded.mobileprovision</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			VccYRc8+LJpEK2ajGtgIir/pOpk=
-			</data>
-			<key>hash2</key>
-			<data>
-			ejCBtnGtWqhlrYI4GRjoMJxaexgdSnhjWGPR+Vc9frw=
-			</data>
-		</dict>
 		<key>uexDevice.bundle/DeviceVersion.plist</key>
 		<dict>
 			<key>hash</key>

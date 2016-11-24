@@ -1,19 +1,7 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
-  <plugin uexName="uexDevice" version="3.0.13" build="13">
-    <info>13: 移除蓝牙检测功能;设备列表添加iPhone7及iPhone7P</info>
-    <build>12: IDE证书更新</build>
-    <build>11: 解决上架隐患</build>
-    <build>10: openSetting接口支持ios7.0+</build>
-    <build>9: 修改获取设备型号的方式，添加设备型号</build>
-    <build>8: 修改工程为arc;部分接口支持同步回调;设备型号现在可以识别iPad Pro</build>
-    <build>7: openSetting接口支持打开推送通知设置</build>
-    <build>6: 添加判断功能是否开启,以及打开设置界面接口</build>
-    <build>5: 添加IDE支持</build>
-    <build>4: 新增屏幕截图、调节屏幕亮度、调节系统音量、屏幕常亮控制、跳转WIFI界面相关接口</build>
-    <build>3: 设备列表更新</build>
-    <build>2: 支持获取4G网络状态</build>
-    <build>1: 修复在不显示状态栏时无法获取当前网络状态的bug</build>
-    <build>0: 设备能力功能插件</build>
-  </plugin>
+    <plugin
+        uexName="uexDevice" version="4.0.0" build="0">
+        <info>0: uexDevice for iOS</info>
+    </plugin>
 </uexplugins>
