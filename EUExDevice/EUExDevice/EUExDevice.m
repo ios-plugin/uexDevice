@@ -24,6 +24,12 @@
 #import <SystemConfiguration/SystemConfiguration.h>
 
 #include <sys/sysctl.h>
+
+#import <ifaddrs.h>
+#import <arpa/inet.h>
+#import <AppCanKit/ACEXTScope.h>
+
+
 @interface EUExDevice()
 
 
@@ -33,8 +39,19 @@
 
 
 
-- (void)dealloc{
+- (instancetype)initWithWebViewEngine:(id<AppCanWebViewEngineObject>)engine{
+    self = [super initWithWebViewEngine:engine];
+    if (self) {
+        
+    }
+    return self;
+}
+- (void)clean{
+    [self stopVibrate];
+}
 
+- (void)dealloc{
+    [self clean];
 }
 
 #pragma mark -
@@ -336,7 +353,6 @@ typedef enum {
         CTCarrier *carrier = info.subscriberCellularProvider;
         NSString * carrierName = carrier.carrierName;
 
-        
         if (!carrierName || [carrierName isKindOfClass:[NSNull class]]) {
             return @"";
         }
@@ -361,71 +377,8 @@ typedef enum {
     NSString *platform = [self getDeviceVer];
     
     NSString *resourceBundlePath = [[EUtility bundleForPlugin:@"uexDevice"] resourcePath];
-    
+    //https://www.theiphonewiki.com/wiki/Models
     NSDictionary *platformInfoDictionary = [NSDictionary dictionaryWithContentsOfFile:[resourceBundlePath stringByAppendingPathComponent:@"DeviceVersion.plist"]];
-    
-  /*
-    NSDictionary * platformInfoDictionary =@{//https://www.theiphonewiki.com/wiki/Models
-                                             //iPhone
-                                             @"iPhone1,1":@"iPhone 1G",
-                                             @"iPhone1,2":@"iPhone 3G",
-                                             @"iPhone2,1":@"iPhone 3GS",
-                                             @"iPhone3,1":@"iPhone 4",
-                                             @"iPhone3,2":@"iPhone 4",
-                                             @"iPhone3,3":@"iPhone 4",
-                                             @"iPhone4,1":@"iPhone 4s",
-                                             @"iPhone5,1":@"iPhone 5",
-                                             @"iPhone5,2":@"iPhone 5",
-                                             @"iPhone5,3":@"iPhone 5c",
-                                             @"iPhone5,4":@"iPhone 5c",
-                                             @"iPhone6,1":@"iPhone 5s",
-                                             @"iPhone6,2":@"iPhone 5s",
-                                             @"iPhone7,1":@"iPhone 6 Plus",
-                                             @"iPhone7,2":@"iPhone 6",
-                                             @"iPhone8,1":@"iPhone 6s",
-                                             @"iPhone8,2":@"iPhone 6s Plus",
-                                             //iPod Touch
-                                             @"iPod1,1":@"iPod touch",
-                                             @"iPod2,1":@"iPod touch 2G",
-                                             @"iPod3,1":@"iPod touch 3G",
-                                             @"iPod4,1":@"iPod touch 4G",
-                                             @"iPod5,1":@"iPod touch 5G",
-                                             @"iPod7,1":@"iPod touch 6G",
-                                             //iPad
-                                             @"iPad1,1":@"iPad",
-                                             @"iPad2,1":@"iPad 2",
-                                             @"iPad2,2":@"iPad 2",
-                                             @"iPad2,3":@"iPad 2",
-                                             @"iPad2,4":@"iPad 2",
-                                             @"iPad2,5":@"iPad mini 1G",
-                                             @"iPad2,6":@"iPad mini 1G",
-                                             @"iPad2,7":@"iPad mini 1G",
-                                             @"iPad3,1":@"iPad 3",
-                                             @"iPad3,2":@"iPad 3",
-                                             @"iPad3,3":@"iPad 3",
-                                             @"iPad3,4":@"iPad 4",
-                                             @"iPad3,5":@"iPad 4",
-                                             @"iPad3,6":@"iPad 4",
-                                             @"iPad4,1":@"iPad Air",
-                                             @"iPad4,2":@"iPad Air",
-                                             @"iPad4,3":@"iPad Air",
-                                             @"iPad4,4":@"iPad mini 2",
-                                             @"iPad4,5":@"iPad mini 2",
-                                             @"iPad4,6":@"iPad mini 2",
-                                             @"iPad4,7":@"iPad mini 3",
-                                             @"iPad4,8":@"iPad mini 3",
-                                             @"iPad4,9":@"iPad mini 3",
-                                             @"iPad5,1":@"iPad mini 4",
-                                             @"iPad5,2":@"iPad mini 4",
-                                             @"iPad5,3":@"iPad Air 2",
-                                             @"iPad5,4":@"iPad Air 2",
-                                             @"iPad6,7":@"iPad Pro",
-                                             @"iPad6,8":@"iPad Pro",
-                                             //iPhone Simulator
-                                             @"i386":@"iPhone Simulator",
-                                             @"x86_64":@"iPhone Simulator",
-                                             };
-    */
     
     if([platformInfoDictionary objectForKey:platform]){
         return [platformInfoDictionary objectForKey:platform];
@@ -453,8 +406,8 @@ typedef enum {
 }
 
 - (NSString *)getInfo:(NSMutableArray *)inArguments {
-    PluginLog(@"[EUExDevice getInfo]");
-    NSInteger inInfoID = [[inArguments objectAtIndex:0] integerValue];
+    ACArgsUnpack(NSNumber *inID) = inArguments;
+    NSInteger inInfoID = inID.integerValue;
     NSString *outStr = @"";
     NSString *outKey = nil;
     //枚举替代整数值
@@ -575,10 +528,8 @@ typedef enum {
             break;
     }
     NSMutableDictionary *argsDict = [[NSMutableDictionary alloc] initWithCapacity:UEX_PLATFORM_CALL_ARGS];
-    if (outKey) {
-        if (outStr) {
-            [argsDict setObject:outStr forKey:outKey];
-        }
+    if (outKey && outStr) {
+        [argsDict setObject:outStr forKey:outKey];
     }
     //[self jsSuccessWithName:@"uexDevice.cbGetInfo" opId:0 dataType:UEX_CALLBACK_DATATYPE_JSON strData:[argsDict JSONFragment]];
     [self.webViewEngine callbackWithFunctionKeyPath:@"uexDevice.cbGetInfo" arguments:ACArgsPack(@0,@1,[argsDict ac_JSONFragment])];
@@ -588,162 +539,118 @@ typedef enum {
 #pragma mark -
 #pragma mark - Vibrate
 
-- (void)stopVibrate{
-    //AudioServicesRemoveSystemSoundCompletion(kSystemSoundID_Vibrate);
-    if (vibrateTimer) {
-        [vibrateTimer invalidate];
-        vibrateTimer = nil;
-    }
-    if (times) {
-        [times invalidate];
-        times = nil;
-    }
-}
+static dispatch_source_t _vibrateTimer;
+static NSDate *_vibrateDeadline;
 
-- (void)playVibrate:(NSTimer *)timer{
-    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-    //float vibrateTime = [(NSString *)[timer userInfo] floatValue];
+
+
+- (void)stopVibrate{
+    if (_vibrateTimer) {
+        dispatch_source_cancel(_vibrateTimer);
+        _vibrateTimer = nil;
+        _vibrateDeadline = nil;
+    }
+
 }
 
 - (void)vibrate:(NSMutableArray *)inArguments {
-    PluginLog(@"[EUExDevice vibrate]");
-    ACArgsUnpack(NSNumber*inMilliseconds) = inArguments;
-    if (vibrateTimer) {
-        return;
-    }
-    if (times) {
-        return;
-    }
-    //inMilliseconds = [inMilliseconds stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    vibrateTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(playVibrate:) userInfo:inMilliseconds repeats:YES];
-    float vibrateTime = [inMilliseconds floatValue]/1000.0;
-    times = [NSTimer scheduledTimerWithTimeInterval:vibrateTime target:self selector:@selector(stopVibrate) userInfo:nil repeats:NO];
+
+    ACArgsUnpack(NSNumber* durationNumber) = inArguments;
+    NSTimeInterval duration = durationNumber.doubleValue / 1000;
+    UEX_PARAM_GUARD(duration > 0);
+    [self stopVibrate];
+    _vibrateDeadline = [NSDate dateWithTimeIntervalSinceNow:duration];
+    _vibrateTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
+    dispatch_source_set_timer(_vibrateTimer, DISPATCH_TIME_NOW, NSEC_PER_SEC * 0.4, NSEC_PER_SEC * 0.1);
+
+    dispatch_source_set_event_handler(_vibrateTimer, ^{
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+        if ([[NSDate date] compare:_vibrateDeadline] != NSOrderedAscending) {
+            [self stopVibrate];
+        }
+    });
+    dispatch_resume(_vibrateTimer);
+
 }
 
-- (void)vibrateWithPattern:(NSArray*)inPattern repeat:(int)inRepeat{
-    PluginLog(@"[EUExDevice vibrateWithPattern]");
-}
 
 //取消震动
 - (void)cancelVibrate:(NSMutableArray *)inArguments {
-    PluginLog(@"[EUExDevice cancelVibrate]");
-    if (vibrateTimer) {
-        [vibrateTimer invalidate];
-        vibrateTimer = nil;
-    }
-    if (times) {
-        [times invalidate];
-        times = nil;
-    }
+    [self stopVibrate];
 }
 
 #pragma mark -
 #pragma mark - Screen Capture
 
 - (void)screenCapture:(NSMutableArray *)inArguments{
-    ACArgsUnpack(NSNumber*info,ACJSFunctionRef *func) = inArguments;
-    if(inArguments.count < 1){
-        return;
+    ACArgsUnpack(NSNumber* qualityNumber,ACJSFunctionRef *callback) = inArguments;
+    CGFloat quality = qualityNumber.floatValue;
+    if (quality > 1){
+        quality = 1;
     }
-    NSNumber *state = @1;
-    CGFloat quality=[info floatValue];
-    if(quality <=1&& quality>=0){
-        UIWindow *screenWindow = [[UIApplication sharedApplication] keyWindow];
-        UIGraphicsBeginImageContext(screenWindow.frame.size);//全屏截图，包括window
-        [screenWindow.layer renderInContext:UIGraphicsGetCurrentContext()];
-        UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        NSString *savePath=[self saveImage:viewImage quality:quality];
-        if (savePath) {
-            state = @0;
-            [self cbSavePath:savePath FunctionRef:func State:state];
-        }else{
-            [func executeWithArguments:ACArgsPack(state,@{@"savePath":@""})];
+    if (quality < 0) {
+        quality = 0;
+    }
+    UIWindow *screenWindow = [[UIApplication sharedApplication] keyWindow];
+    UIGraphicsBeginImageContextWithOptions(screenWindow.frame.size, NO, 0.0);
+    [screenWindow.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSString *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES).firstObject;
+        NSString *fileName = [NSString stringWithFormat:@"%d.jpg",arc4random_uniform(1000000)];
+        NSString *widgetId = self.webViewEngine.widget.widgetId ?: @"";
+        NSString *filePath = [NSString pathWithComponents:@[documentPath,@"apps",widgetId,@"uexDevice",fileName]];
+        NSFileManager *fm = [NSFileManager defaultManager];
+        if ([fm fileExistsAtPath:filePath]) {
+            [fm removeItemAtPath:filePath error:nil];
         }
+        NSData *imageData = UIImageJPEGRepresentation(viewImage, quality);
+        UEX_ERROR e = kUexNoError;
+        if (!imageData || ![imageData writeToFile:filePath atomically:YES]) {
+            e = uexErrorMake(1);
+            filePath = @"";
+        }
+        NSDictionary *dict = @{@"savePath": filePath};
+        [callback executeWithArguments:ACArgsPack(e,dict)];
+        [self callbackJSONWithFunctionName:@"cbScreenCapture" object:dict];
         
-        //保存到系统相册
-        //UIImageWriteToSavedPhotosAlbum(viewImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
-    }
-    else{
-        [func executeWithArguments:ACArgsPack(state,@{@"savePath":@""})];
-        return;
-    }
-}
-//callback
-- (void)cbSavePath:(NSString*)savePath FunctionRef:(ACJSFunctionRef*)func State:(NSNumber*)state{
-    NSMutableDictionary *path=[NSMutableDictionary dictionary];
-    [path setValue:savePath forKey:@"savePath"];
-    [self callBackJsonWithFunction:@"cbScreenCapture" dicParameter:path];
-    [func executeWithArguments:ACArgsPack(state,@{@"savePath":savePath})];
+    });
 }
 
-- (NSString *)getSaveDirPath{
-    NSString *tempPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/apps"];
-    NSString *wgtTempPath=[tempPath stringByAppendingPathComponent:[[self.webViewEngine widget] widgetId]];
-    return [wgtTempPath stringByAppendingPathComponent:@"uexDevice"];
-}
-// save to Disk
-- (NSString *)saveImage:(UIImage *)image quality:(CGFloat)quality{
-    NSData *imageData=UIImageJPEGRepresentation(image, quality);
-    NSString *imageSuffix= @"jpg";
-    
-    if(!imageData) return nil;
-    
-    NSFileManager *fmanager = [NSFileManager defaultManager];
-    
-    NSString *uexImageSaveDir=[self getSaveDirPath];
-    if (![fmanager fileExistsAtPath:uexImageSaveDir]) {
-        [fmanager createDirectoryAtPath:uexImageSaveDir withIntermediateDirectories:YES attributes:nil error:nil];
-    }
-    NSString *timeStr = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSinceReferenceDate]];
-    
-    NSString *imgName = [NSString stringWithFormat:@"%@.%@",[timeStr substringFromIndex:([timeStr length]-6)],imageSuffix];
-    NSString *imgTmpPath = [uexImageSaveDir stringByAppendingPathComponent:imgName];
-    if ([fmanager fileExistsAtPath:imgTmpPath]) {
-        [fmanager removeItemAtPath:imgTmpPath error:nil];
-    }
-    if([imageData writeToFile:imgTmpPath atomically:YES]){
-        return imgTmpPath;
-    }else{
-        return nil;
-    }
-    
-}
 
 #pragma mark -
 #pragma mark - Volume
 
 - (void)setVolume:(NSMutableArray *)inArguments{
-    if(inArguments.count<1){
+    ACArgsUnpack(NSNumber *volume) = inArguments;
+    UEX_PARAM_GUARD_NOT_NIL(volume);
+    CGFloat volumeValue = volume.floatValue;
+    if (volumeValue < 0 || volumeValue > 1) {
         return;
     }
-    CGFloat volumeValue=[inArguments[0] floatValue];
-    if(volumeValue <=1&& volumeValue>=0){
-        MPVolumeView *volumeView = [[MPVolumeView alloc] init];
-        UISlider* volumeViewSlider = nil;
-        for (UIView *view in [volumeView subviews]){
-            if ([view.class.description isEqualToString:@"MPVolumeSlider"]){
-                volumeViewSlider = (UISlider*)view;
-                break;
-            }
+    
+    MPVolumeView *volumeView = [[MPVolumeView alloc] init];
+    UISlider* volumeViewSlider = nil;
+    for (UIView *view in [volumeView subviews]){
+        if ([view.class.description isEqualToString:@"MPVolumeSlider"]){
+            volumeViewSlider = (UISlider*)view;
+            break;
         }
-        //不显示滑动条和音量界面
-        volumeView.showsVolumeSlider = NO;
-        volumeView.hidden=NO;
-        [volumeViewSlider setValue:volumeValue animated:NO];
-        [volumeViewSlider sendActionsForControlEvents:UIControlEventTouchUpInside];
-        
-        //[[MPMusicPlayerController applicationMusicPlayer] setVolume:volumeValue];
     }
-    else{
-        return;
-    }
+    volumeView.showsVolumeSlider = NO;
+    volumeView.hidden = NO;
+    [volumeViewSlider setValue:volumeValue animated:NO];
+    [volumeViewSlider sendActionsForControlEvents:UIControlEventTouchUpInside];
+
 }
 - (NSNumber *)getVolume:(NSMutableArray *)inArguments{
-    CGFloat volumeValue=[[MPMusicPlayerController applicationMusicPlayer] volume];
-    NSMutableDictionary *volumeVal=[NSMutableDictionary dictionary];
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    CGFloat volumeValue = audioSession.outputVolume;
+    NSMutableDictionary *volumeVal = [NSMutableDictionary dictionary];
     [volumeVal setValue:@(volumeValue) forKey:@"volume"];
-    [self callBackJsonWithFunction:@"cbGetVolume" dicParameter:volumeVal];
+    [self callbackJSONWithFunctionName:@"cbGetVolume" object:volumeVal];
     return @(volumeValue);
 }
 
@@ -751,24 +658,17 @@ typedef enum {
 #pragma mark - Audio Category
 
 - (void)setAudioCategory:(NSMutableArray *)inArguments{
-    if(inArguments.count<1){
-        return;
-    }
-    int audioType=[inArguments[0] intValue];
-//    UInt32 doChangeDefaultRoute = kAudioSessionOverrideAudioRoute_None;
-//    AudioSessionSetProperty (
-//                             kAudioSessionProperty_OverrideCategoryDefaultToSpeaker,
-//                             sizeof (doChangeDefaultRoute),
-//                             &doChangeDefaultRoute
-//                             );
     
+    ACArgsUnpack(NSNumber *category) = inArguments;
+    UEX_PARAM_GUARD_NOT_NIL(category);
+
+    NSInteger audioType = category.integerValue;
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-    //NSLog(@"category---->%@",[audioSession category]);
-    if(audioType==0){
+    if(audioType == 0){
         //扬声器模式
         [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
     }
-    if(audioType==1){
+    if(audioType == 1){
         //听筒模式
         [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
     }
@@ -778,39 +678,29 @@ typedef enum {
 #pragma mark - set Screen Always Bright
 
 - (void)setScreenAlwaysBright:(NSMutableArray *)inArguments{
-    if(inArguments.count<1){
-        return;
-    }
-    int brightValue=[inArguments[0] intValue];
-    if(brightValue==0){
-        [UIApplication sharedApplication].idleTimerDisabled = NO;
-    }
-    if(brightValue==1){
-        [UIApplication sharedApplication].idleTimerDisabled = YES;
-    }
+    ACArgsUnpack(NSNumber *alwaysBright) = inArguments;
+    UEX_PARAM_GUARD_NOT_NIL(alwaysBright);
+    [UIApplication sharedApplication].idleTimerDisabled = alwaysBright.boolValue;
+
 }
 
 #pragma mark -
 #pragma mark - Screen Brightness
 
 - (void)setScreenBrightness:(NSMutableArray *)inArguments{
-    if(inArguments.count<1){
+    ACArgsUnpack(NSNumber *brightness) = inArguments;
+    UEX_PARAM_GUARD_NOT_NIL(brightness);
+    CGFloat brightnessValue = brightness.floatValue;
+    if(brightnessValue > 1 || brightnessValue < 0){
         return;
     }
-    CGFloat brightnessValue=[inArguments[0] floatValue];
-    if(brightnessValue <=1&& brightnessValue>=0){
-        [[UIScreen mainScreen]setBrightness:brightnessValue];
-    }
-    else{
-        return;
-    }
-    
+    [[UIScreen mainScreen] setBrightness:brightnessValue];
 }
--(NSNumber *)getScreenBrightness:(NSMutableArray *)inArguments{
-    CGFloat brightness=[[UIScreen mainScreen] brightness];
-    NSMutableDictionary *brightnessVal=[NSMutableDictionary dictionary];
+- (NSNumber *)getScreenBrightness:(NSMutableArray *)inArguments{
+    CGFloat brightness = [[UIScreen mainScreen] brightness];
+    NSMutableDictionary *brightnessVal = [NSMutableDictionary dictionary];
     [brightnessVal setValue:@(brightness) forKey:@"brightness"];
-    [self callBackJsonWithFunction:@"cbGetScreenBrightness" dicParameter:brightnessVal];
+    [self callbackJSONWithFunctionName:@"cbGetScreenBrightness" object:brightnessVal];
     return @(brightness);
 }
 
@@ -823,9 +713,35 @@ typedef enum {
     }
     [[UIApplication sharedApplication]openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
 }
+
+- (NSString *)getIP:(NSMutableArray *)inArguments{
+
+    struct ifaddrs *interfaces = NULL;
+    if (getifaddrs(&interfaces) == 0) {
+        @onExit{
+            freeifaddrs(interfaces);
+        };
+        while (interfaces != NULL) {
+            if (interfaces->ifa_addr->sa_family == AF_INET) {
+                if ([[NSString stringWithUTF8String:interfaces->ifa_name] isEqualToString:@"en0"]) {
+                    return [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)interfaces->ifa_addr)->sin_addr)];
+                }
+            }
+            interfaces = interfaces->ifa_next;
+        }
+    }
+    
+    return nil;
+}
+
+
+
+
+
+
 #pragma mark - setting
 - (void)isFunctionEnable:(NSMutableArray *)inArguments{
-     ACArgsUnpack(NSDictionary*info,ACJSFunctionRef *func) = inArguments;
+    ACArgsUnpack(NSDictionary *info,ACJSFunctionRef *func) = inArguments;
     if(!info){
         return;
     }
@@ -833,38 +749,23 @@ typedef enum {
     NSMutableDictionary *result = [NSMutableDictionary dictionary];
     [result setValue:setting forKey:@"setting"];
     __block NSNumber *state = @(NO);
+    
     if([setting isEqualToString:@"GPS"]){
-        if ([CLLocationManager locationServicesEnabled]){
-            [result setValue:@(YES) forKey:@"isEnable"];
-            state = @(YES);
-        }
-        else{
-            [result setValue:@(NO) forKey:@"isEnable"];
-            state = @(NO);
-        }
-    }
-    else if([setting isEqualToString:@"CAMERA"]){
+        state = @([CLLocationManager locationServicesEnabled]);
+    }else if([setting isEqualToString:@"CAMERA"]){
         NSString *mediaType = AVMediaTypeVideo;
          AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];
-        NSLog(@"authStatus:%ld",authStatus);
         switch (authStatus) {
             case AVAuthorizationStatusNotDetermined:{
                 // 许可对话没有出现，发起授权许可
                 [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
-                    if (granted) {
-                        //第一次用户接受
-                        state = @(YES);
-                    }else{
-                        //用户拒绝
-                        state = @(NO);
-                    }
+                    state = @(granted);
                 }];
                 break;
             }
             case AVAuthorizationStatusAuthorized:{
                 // 已经开启授权，可继续
                  state = @(YES);
-                
                 break;
             }
             case AVAuthorizationStatusDenied:
@@ -872,30 +773,24 @@ typedef enum {
                 // 用户明确地拒绝授权，或者相机设备无法访问
                 state = @(NO);
                 break;
-            default:
-                break;
         }
-        
-    }else{
-        state = @(NO);
-        [result setValue:@(NO) forKey:@"isEnable"];
     }
-    [self callBackJsonWithFunction:@"cbIsFunctionEnable" dicParameter:result];
+    
+    [result setValue:state forKey:@"isEnable"];
+    [self callbackJSONWithFunctionName:@"cbIsFunctionEnable" object:result];
     [func executeWithArguments:ACArgsPack(state)];
 }
 
 - (void)openSetting:(NSMutableArray *)inArguments{
     
     __block NSMutableDictionary *result=[NSMutableDictionary dictionary];
-    ACArgsUnpack(NSDictionary*info) = inArguments;
-    //ACJSFunctionRef *func = JSFunctionArg(inArguments.lastObject);
+    ACArgsUnpack(NSDictionary *info) = inArguments;
     NSString *setting = stringArg(info[@"setting"])?:@"";
     [result setValue:setting forKey:@"setting"];
     void (^callback)(BOOL isSuccess) = ^(BOOL isSuccess){
-        NSNumber *state = isSuccess?@0:@1;
+        NSNumber *state = isSuccess? @0 : @1;
         [result setValue:state forKey:@"errorCode"];
-        [self callBackJsonWithFunction:@"cbOpenSetting" dicParameter:result];
-        //[func executeWithArguments:ACArgsPack(state,@{@"setting":setting})];
+        [self callbackJSONWithFunctionName:@"cbOpenSetting" object:result];
     };
     
     // UIApplicationOpenSettingsURLString 只支持8.0+系统
@@ -907,16 +802,16 @@ typedef enum {
     callback(isSuccess);
 }
 
-#pragma mark - CallBack Method
-const static NSString *kPluginName=@"uexDevice";
-- (void)callBackJsonWithFunction:(NSString *)functionName dicParameter:(NSMutableDictionary*)obj{
+
+
+
+
+#pragma mark - Callback Method
+static NSString *const kPluginName = @"uexDevice";
+- (void)callbackJSONWithFunctionName:(NSString *)functionName object:(NSDictionary*)obj{
     NSString *jsonStr = [NSString stringWithFormat:@"%@.%@",kPluginName,functionName];
     NSArray * args = ACArgsPack(obj.ac_JSONFragment);
-    [self.webViewEngine callbackWithFunctionKeyPath:jsonStr arguments:args completion:^(JSValue * _Nonnull returnValue) {
-        if (returnValue) {
-            NSLog(@"回调成功!");
-        }
-    }];
+    [self.webViewEngine callbackWithFunctionKeyPath:jsonStr arguments:args completion:nil];
     
 }
 @end

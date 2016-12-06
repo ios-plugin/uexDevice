@@ -61,9 +61,5 @@ enum DeviceInfo {
     F_DEVICE_INFO_ID_UUID
 };
 
-@interface EUExDevice : EUExBase {
-	NSTimer *vibrateTimer;
-	NSTimer *times;
-}
-
+@interface EUExDevice : EUExBase 
 @end

@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <uexplugins>
     <plugin name="uexDevice">
-        <method name="getInfo" sync="true"></method>
+        <method name="getInfo"></method>
         <method name="vibrate"></method>
         <method name="cancelVibrate"></method>
         <method name="screenCapture"></method>
         <method name="setVolume"></method>
-        <method name="getVolume" sync="true"></method>
+        <method name="getVolume"></method>
         <method name="setScreenAlwaysBright"></method>
         <method name="setScreenBrightness"></method>
         <method name="openWiFiInterface"></method>
-        <method name="getScreenBrightness" sync="true"></method>
+        <method name="getScreenBrightness"></method>
         <method name="isFunctionEnable"></method>
         <method name="openSetting"></method>
+        <method name="getIP"></method>
     </plugin>
 </uexplugins>
