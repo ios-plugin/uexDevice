@@ -49,6 +49,7 @@
 }
 - (void)clean{
     [self stopVibrate];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)dealloc{
@@ -821,11 +822,8 @@ static NSDate *_vibrateDeadline;
 }
 
 - (void)onNetStatusChanged:(NSNotification *)notification {
-    
     NSString *netStatus = [self getConnectStatus];
-    
-    NSString *jsSuccessStr = [NSString stringWithFormat:@"if(uexDevice.onNetStatusChanged!=null){uexDevice.onNetStatusChanged(%@);}",netStatus];
-    [EUtility brwView:self.meBrwView evaluateScript:jsSuccessStr];
+    [self.webViewEngine callbackWithFunctionKeyPath:@"uexDevice.onNetStatusChanged" arguments:ACArgsPack(netStatus)];
 }
 
 - (void)stopsNetStatusListener:(NSMutableArray *)inArguments {
