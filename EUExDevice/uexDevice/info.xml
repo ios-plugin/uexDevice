@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
     <plugin
-        uexName="uexDevice" version="4.0.2" build="2">
-        <info>2: 增加onNetStatusChanged,startNetStatusListener和stopsNetStatusListener网络监听方法</info>
+        uexName="uexDevice" version="4.0.3" build="3">
+        <info>3: plugin.xml文件配置startNetStatusListener和stopsNetStatusListener方法</info>
+        <build>2: 增加onNetStatusChanged,startNetStatusListener和stopsNetStatusListener网络监听方法</build>
         <build>1: 支持获取本地IP</build>
         <build>0: uexDevice for iOS</build>
     </plugin>
