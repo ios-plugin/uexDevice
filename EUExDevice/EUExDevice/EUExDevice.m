@@ -601,20 +601,29 @@ static NSDate *_vibrateDeadline;
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSString *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES).firstObject;
-        NSString *fileName = [NSString stringWithFormat:@"%d.jpg",arc4random_uniform(1000000)];
+        NSString *imageFileName = [NSString stringWithFormat:@"%@.jpg",[NSUUID UUID].UUIDString];
         NSString *widgetId = self.webViewEngine.widget.widgetId ?: @"";
-        NSString *filePath = [NSString pathWithComponents:@[documentPath,@"apps",widgetId,@"uexDevice",fileName]];
+        NSString *imageFolder = [NSString pathWithComponents:@[documentPath,@"apps",widgetId,@"uexDevice"]];
         NSFileManager *fm = [NSFileManager defaultManager];
-        if ([fm fileExistsAtPath:filePath]) {
-            [fm removeItemAtPath:filePath error:nil];
+        BOOL folderAvailable = [fm fileExistsAtPath:imageFolder isDirectory:&folderAvailable];
+        if (!folderAvailable) {
+            [fm createDirectoryAtPath:imageFolder
+          withIntermediateDirectories:YES
+                           attributes:@{NSURLIsExcludedFromBackupKey: @YES}
+                                error:nil];
+        }
+        NSString *imagePath = [imageFolder stringByAppendingPathComponent:imageFileName];
+        
+        if ([fm fileExistsAtPath:imagePath]) {
+            [fm removeItemAtPath:imagePath error:nil];
         }
         NSData *imageData = UIImageJPEGRepresentation(viewImage, quality);
         UEX_ERROR e = kUexNoError;
-        if (!imageData || ![imageData writeToFile:filePath atomically:YES]) {
+        if (!imageData || ![imageData writeToFile:imagePath atomically:YES]) {
             e = uexErrorMake(1);
-            filePath = @"";
+            imagePath = @"";
         }
-        NSDictionary *dict = @{@"savePath": filePath};
+        NSDictionary *dict = @{@"savePath": imagePath};
         [callback executeWithArguments:ACArgsPack(e,dict)];
         [self callbackJSONWithFunctionName:@"cbScreenCapture" object:dict];
         
