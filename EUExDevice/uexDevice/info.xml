@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
     <plugin
-        uexName="uexDevice" version="4.0.4" build="4">
-        <info>4: 修复一个导致截屏失败的bug</info>
+        uexName="uexDevice" version="4.0.5" build="5">
+        <info>5: 添加iPhone 8、iPhone 8 Plus和iPhone X机型model</info>
+        <build>4: 修复一个导致截屏失败的bug</build>
         <build>3: plugin.xml文件配置startNetStatusListener和stopsNetStatusListener方法</build>
         <build>2: 增加onNetStatusChanged,startNetStatusListener和stopsNetStatusListener网络监听方法</build>
         <build>1: 支持获取本地IP</build>
