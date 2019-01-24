@@ -58,6 +58,14 @@
 	<string>iPhone X</string>
 	<key>iPhone10,6</key>
 	<string>iPhone X</string>
+	<key>iPhone11,2</key>
+	<string>iPhone XS</string>
+	<key>iPhone11,4</key>
+	<string>iPhone XS Max</string>
+	<key>iPhone11,6</key>
+	<string>iPhone XS Max</string>
+	<key>iPhone11,8</key>
+	<string>iPhone XR</string>
 	<key>iPad1,1</key>
 	<string>iPad</string>
 	<key>iPad2,1</key>
